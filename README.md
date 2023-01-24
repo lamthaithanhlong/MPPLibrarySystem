@@ -1,2 +1,6 @@
 # MPPLibrarySystem
-Project MPP library system
+
+Team Members
+- Abbas Irekeola
+- David Lin
+- Edet Ebenezer
