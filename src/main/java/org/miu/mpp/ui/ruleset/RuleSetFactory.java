@@ -1,13 +1,29 @@
 package org.miu.mpp.ui.ruleset;
 
+import org.miu.mpp.ui.login.LoginRulesSet;
+import org.miu.mpp.ui.login.LoginWindow;
+
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 
 final public class RuleSetFactory {
     private RuleSetFactory() {
     }
 
     static HashMap<Class<? extends Component>, RuleSet> map = new HashMap<>();
+
+    static {
+        map.put(LoginWindow.class, new LoginRulesSet());
+    }
+
+    public static RuleSet getRuleSet(Component c) {
+        Class<? extends Component> cl = c.getClass();
+        if (!map.containsKey(cl)) {
+            throw new IllegalArgumentException("No RuleSet found for this Component");
+        }
+        return map.get(cl);
+    }
 
     public static boolean isNumeric(String str) {
         if (str.isEmpty())
@@ -19,7 +35,14 @@ final public class RuleSetFactory {
             }
         }
         return true;
+    }
 
+    public static boolean isAnyEmpty(List<String> values) {
+        for (String value : values) {
+            if (value.isEmpty()) return true;
+        }
+
+        return false;
     }
 
     public static boolean isExactLength(String str, int len) {

@@ -27,6 +27,6 @@ public abstract class SearchPanelTopPanel extends JFrameAddMultiple {
         jButton.setBounds(340, 25, 100, 30);
         jButton.addActionListener(this::clickListenerForSearchBtn);
 
-        this.addMultipleComponents(List.of(jTextField, jButton));
+        this.addAll(List.of(jTextField, jButton));
     }
 }
