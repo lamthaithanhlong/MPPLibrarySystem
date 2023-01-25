@@ -1,35 +1,32 @@
 package org.miu.mpp.ui.base;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.util.List;
 
-public class SearchPanelTopPanel extends JFrameAddMultiple {
-    private final String searchText;
-    private final String buttonText;
+public abstract class SearchPanelTopPanel extends JFrameAddMultiple {
+    private String searchText;
+    private String buttonText;
 
-    public SearchPanelTopPanel(String searchText, String buttonText) {
+    public abstract void clickListenerForSearchBtn(ActionEvent e);
+
+    public void setSearchText(String searchText) {
         this.searchText = searchText;
-        this.buttonText = buttonText;
-
-        setPanelDetails();
     }
 
-    private void setPanelDetails() {
+    public void setButtonText(String buttonText) {
+        this.buttonText = buttonText;
+    }
+
+    public void initPanelAndShow() {
         JTextField jTextField = new JTextField();
         jTextField.setToolTipText(searchText);
         jTextField.setBounds(20, 20, 300, 40);
 
         JButton jButton = new JButton(buttonText);
         jButton.setBounds(340, 25, 100, 30);
+        jButton.addActionListener(this::clickListenerForSearchBtn);
 
         this.addMultipleComponents(List.of(jTextField, jButton));
-
-        this.setLayout(null);
-        this.setVisible(true);
-        this.setSize(500, 500);
-    }
-
-    public static void main(String[] args) {
-        new SearchPanelTopPanel("isbn", "Search");
     }
 }
