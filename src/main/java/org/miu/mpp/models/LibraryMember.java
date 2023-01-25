@@ -1,7 +1,9 @@
 package org.miu.mpp.models;
 
 
-public class LibraryMember extends Person {
+import java.io.Serializable;
+
+public class LibraryMember extends Person implements Serializable {
     private String memberId;
 
     public LibraryMember(String memberId, String firstName, String lastName, String phone, Address address) {

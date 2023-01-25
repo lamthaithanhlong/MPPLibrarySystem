@@ -1,6 +1,8 @@
 package org.miu.mpp.models;
 
-public class Author extends Person {
+import java.io.Serializable;
+
+public class Author extends Person implements Serializable {
     private String bio;
 
     public Author(String firstName, String lastName, String phone, Address address, String bio) {

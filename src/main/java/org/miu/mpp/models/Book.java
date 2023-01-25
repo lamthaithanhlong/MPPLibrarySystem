@@ -1,8 +1,9 @@
 package org.miu.mpp.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Book {
+public class Book implements Serializable {
     private String isbn;
     private String name;
     private int maxBorrowDays;
