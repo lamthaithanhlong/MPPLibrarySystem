@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.util.List;
 
 public class LoginWindow extends JFrameAddMultiple {
+    public static LoginWindow LoginWindowInstance = new LoginWindow();
     private JTextField idField;
     private JTextField passwordField;
 
@@ -22,10 +23,13 @@ public class LoginWindow extends JFrameAddMultiple {
         return passwordField.getText();
     }
 
-    private final SystemController systemController;
+    private SystemController systemController;
 
     //private constructor to keep initialization in the class
     private LoginWindow() {
+    }
+
+    public void init() {
         initData();
         this.systemController = new SystemController();
     }
@@ -52,6 +56,7 @@ public class LoginWindow extends JFrameAddMultiple {
         });
 
         addAll(List.of(textField, idLabel, idField, passwordLabel, passwordField, loginButton));
+
         setLayout(null);
         setVisible(true);
         setSize(400, 300);
@@ -63,7 +68,7 @@ public class LoginWindow extends JFrameAddMultiple {
 
             try {
                 systemController.login(idField.getText().trim(), passwordField.getText());
-                LibrarySystem.librarySystemInstance.init();
+                LibrarySystem.librarySystemInstance.initAndShow();
             } catch (LoginException exception) {
                 new Dialog("Error", exception.getMessage(), true);
             }
@@ -75,6 +80,6 @@ public class LoginWindow extends JFrameAddMultiple {
     }
 
     public static void main(String[] args) {
-        LoginWindow loginWindow = new LoginWindow();
+        LoginWindow.LoginWindowInstance.init();
     }
 }

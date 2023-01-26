@@ -1,9 +1,11 @@
 package org.miu.mpp.ui;
 
 import org.miu.mpp.models.Auth;
+import org.miu.mpp.ui.admin.AddBookWindow;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
 import org.miu.mpp.utils.ControllerInterface;
 import org.miu.mpp.utils.SystemController;
+import org.miu.mpp.utils.Util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,11 +28,11 @@ public class LibrarySystem extends JFrameAddMultiple {
     private LibrarySystem() {
     }
 
-    public void init() {
+    public void initAndShow() {
         setTitle("Welcome to Starboys LMS");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        setResizable(false);
 
         addDashboardItems();
     }
@@ -147,7 +149,10 @@ public class LibrarySystem extends JFrameAddMultiple {
     class BookClickListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: Add call to open NewBookWindow
+            AddBookWindow.AddBookWindowInstance.init();
+            Util.centerFrameOnDesktop(AddBookWindow.AddBookWindowInstance);
+
+            AddBookWindow.AddBookWindowInstance.setVisible(true);
         }
     }
 
@@ -156,5 +161,9 @@ public class LibrarySystem extends JFrameAddMultiple {
         public void actionPerformed(ActionEvent e) {
             //TODO: Add call to open CheckoutHistoryWindow
         }
+    }
+
+    public static void main(String[] args) {
+        LibrarySystem.librarySystemInstance.initAndShow();
     }
 }
