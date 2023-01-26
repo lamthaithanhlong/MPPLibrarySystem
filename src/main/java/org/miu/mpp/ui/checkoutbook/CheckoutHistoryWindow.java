@@ -2,10 +2,12 @@ package org.miu.mpp.ui.checkoutbook;
 
 import org.miu.mpp.models.CheckoutEntry;
 import org.miu.mpp.models.CheckoutRecord;
+import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Arrays;
@@ -43,31 +45,63 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
 
 
     private CheckoutHistoryWindow() {
-
         this.checkoutBookController = new CheckoutBookController();
         initData();
     }
+
+    private void setIsbnFieldText(String text) {
+        isbnField.setText(text);
+    }
+
+    private void setMemberIdField(String text) {
+        memberField.setText(text);
+    }
+
+    public static void loadCheckoutHistoryWindowWithFilter(String isbn, String memberId) {
+        CheckoutHistoryWindow checkoutHistoryWindow = new CheckoutHistoryWindow();
+        checkoutHistoryWindow.setIsbnFieldText(isbn);
+        checkoutHistoryWindow.setMemberIdField(memberId);
+        checkoutHistoryWindow.addSearchFilter();
+
+    }
+
+    public static void loadCheckoutHistoryFromDashboard() {
+        new CheckoutHistoryWindow();
+    }
+
 
     private void initData() {
 
         allCheckoutRecords = checkoutBookController.getAllCheckoutRecords();
 
+
+        JButton goBackBtn = new JButton("<< Go Back");
+        goBackBtn.setBounds(20, 10, 100, 30);
+        goBackBtn.addActionListener(v -> LibrarySystem.librarySystemInstance.init());
+
+        JLabel titleLabel = new JLabel("You can filter by entering an of the fields below or just click on search to view all records");
+        titleLabel.setBounds(26, 33, 600, 60);
+        titleLabel.setFont(new Font(titleLabel.getFont().getName(), Font.ITALIC, titleLabel.getFont().getSize()));
+        titleLabel.setForeground(Color.BLUE);
+
+        setTitle("Book Checkout History");
+
+
         memberIdLabel = new JLabel("Member ID: ");
-        memberIdLabel.setBounds(25, 20, 150, 30);
+        memberIdLabel.setBounds(25, 80, 150, 30);
 
         memberField = new JTextField();
-        memberField.setBounds(20, 45, 180, 30);
+        memberField.setBounds(20, 105, 180, 30);
 
 
         isbnLabel = new JLabel("ISBN: ");
-        isbnLabel.setBounds(205, 20, 150, 30);
+        isbnLabel.setBounds(205, 80, 150, 30);
 
         isbnField = new JTextField();
-        isbnField.setBounds(200, 45, 180, 30);
-
+        isbnField.setBounds(200, 105, 180, 30);
 
         JButton jButton = new JButton("Search");
-        jButton.setBounds(400, 45, 100, 30);
+        jButton.setBounds(400, 105, 100, 30);
 
         jButton.addActionListener(v -> {
             addSearchFilter();
@@ -77,15 +111,16 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
         getTable();
 
 
-        addAll(Arrays.asList(memberField, memberIdLabel, isbnLabel, isbnField, jButton, scrollPane));
+        addAll(Arrays.asList(memberField, memberIdLabel, isbnLabel, isbnField, jButton, scrollPane, goBackBtn, titleLabel));
 
         setSize(600, 500);
         setLayout(null);
         setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void getTable() {
-        if(Objects.nonNull(model)){
+        if (Objects.nonNull(model)) {
             model.setRowCount(0);
             table.updateUI();
             scrollPane.remove(table);
@@ -97,13 +132,13 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
         table = new JTable();
 
         model = new DefaultTableModel();
-        String[] column = {"Member Id", "Book Title","ISBN", "Copy No.", "Checkout Date", "Due Date", "Late Fee"};
+        String[] column = {"Member Id", "Book Title", "ISBN", "Copy No.", "Checkout Date", "Due Date", "Late Fee"};
         model.setColumnIdentifiers(column);
         table.setModel(model);
 
 
         for (CheckoutRecord cr : allCheckoutRecords) {
-            for (CheckoutEntry ce : cr.getEntries()){
+            for (CheckoutEntry ce : cr.getEntries()) {
                 model.insertRow(0, new String[]{
                         cr.getMemberId(),
                         ce.getBookCopy().getBook().getTitle(),

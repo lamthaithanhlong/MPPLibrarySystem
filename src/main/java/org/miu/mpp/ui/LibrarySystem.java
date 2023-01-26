@@ -2,6 +2,9 @@ package org.miu.mpp.ui;
 
 import org.miu.mpp.models.Auth;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
+import org.miu.mpp.ui.checkoutbook.CheckoutBookController;
+import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
+import org.miu.mpp.ui.checkoutbook.CheckoutHistoryWindow;
 import org.miu.mpp.utils.ControllerInterface;
 import org.miu.mpp.utils.SystemController;
 
@@ -126,7 +129,7 @@ public class LibrarySystem extends JFrameAddMultiple {
     class CheckoutBookClickListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: Add call to open CheckoutBookWindow
+            CheckoutBookWindow.displayCheckOutBookWindow();
         }
     }
 
@@ -154,6 +157,7 @@ public class LibrarySystem extends JFrameAddMultiple {
     class CheckoutHistoryClickListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            CheckoutHistoryWindow.loadCheckoutHistoryFromDashboard();
             //TODO: Add call to open CheckoutHistoryWindow
         }
     }
