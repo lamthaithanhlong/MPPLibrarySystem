@@ -25,6 +25,15 @@ public class LibrarySystem extends JFrameAddMultiple {
     private JButton addNewBookBtn;
     private JPanel panel;
     private ImageIcon backgroundImage;
+    
+    private static LibWindow[] allWindows = {
+	};
+    
+	public static void hideAllWindows() {
+		for (LibWindow frame : allWindows) {
+			frame.setVisible(false);
+		}
+	}
 
     private LibrarySystem() {
     }

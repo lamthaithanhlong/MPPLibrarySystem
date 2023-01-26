@@ -1,9 +1,5 @@
 package org.miu.mpp.dataaccess;
 
-import org.miu.mpp.models.Book;
-import org.miu.mpp.models.LibraryMember;
-import org.miu.mpp.models.User;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -13,6 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
+
+import org.miu.mpp.models.Book;
+import org.miu.mpp.models.LibraryMember;
+import org.miu.mpp.models.User;
 
 public class DataAccessFacade implements DataAccess {
 
@@ -38,6 +38,12 @@ public class DataAccessFacade implements DataAccess {
         //   isbn -> Book
         return (HashMap<String, Book>) readFromStorage(StorageType.BOOKS);
     }
+    
+	public void deleteMember(String memberId) {
+		HashMap<String, LibraryMember> members = readMemberMap();
+		members.remove(memberId);
+		saveToStorage(StorageType.MEMBERS, members);
+	}
 
     public void saveNewBook(Book book) {
         HashMap<String, Book> books = readBooksMap();
