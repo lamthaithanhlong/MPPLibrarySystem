@@ -1,21 +1,33 @@
 package org.miu.mpp.models;
 
-
 import java.io.Serializable;
 
-public class LibraryMember extends Person implements Serializable {
-    private String memberId;
+final public class LibraryMember extends Person implements Serializable {
+	private String memberId;
+	private CheckoutRecord checkoutRecord;
+	
+	public LibraryMember(String memberId, String fname, String lname, String tel, Address add) {
+		super(fname,lname, tel, add);
+		this.memberId = memberId;
+	}
+	
+	public String getMemberId() {
+		return memberId;
+	}
 
-    public LibraryMember(String memberId, String firstName, String lastName, String phone, Address address) {
-        super(firstName, lastName, phone, address);
-        this.memberId = memberId;
-    }
+	@Override
+	public String toString() {
+		return "Member Info: " + "ID: " + memberId + ", name: " + getFirstName() + " " + getLastName() + 
+				", " + getPhone() + " " + getAddress();
+	}
 
-    public String getMemberId() {
-        return memberId;
-    }
+	public CheckoutRecord getCheckoutRecord() {
+		return checkoutRecord;
+	}
 
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
-    }
+	public void setCheckoutRecord(CheckoutRecord checkoutRecord) {
+		this.checkoutRecord = checkoutRecord;
+	}
+
+	private static final long serialVersionUID = -2226197306790714013L;
 }
