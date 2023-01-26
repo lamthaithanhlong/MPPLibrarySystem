@@ -1,5 +1,6 @@
 package org.miu.mpp.ui.login;
 
+import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
 import org.miu.mpp.ui.ruleset.RuleException;
@@ -62,7 +63,7 @@ public class LoginWindow extends JFrameAddMultiple {
 
             try {
                 systemController.login(idField.getText().trim(), passwordField.getText());
-                new Dialog("Success", "Login successful", false);
+                LibrarySystem.librarySystemInstance.init();
             } catch (LoginException exception) {
                 new Dialog("Error", exception.getMessage(), true);
             }

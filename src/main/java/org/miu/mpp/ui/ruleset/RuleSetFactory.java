@@ -1,5 +1,7 @@
 package org.miu.mpp.ui.ruleset;
 
+import org.miu.mpp.ui.checkoutbook.CheckoutBookRulesSet;
+import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
 import org.miu.mpp.ui.login.LoginRulesSet;
 import org.miu.mpp.ui.login.LoginWindow;
 
@@ -15,6 +17,7 @@ final public class RuleSetFactory {
 
     static {
         map.put(LoginWindow.class, new LoginRulesSet());
+        map.put(CheckoutBookWindow.class, new CheckoutBookRulesSet());
     }
 
     public static RuleSet getRuleSet(Component c) {
@@ -39,7 +42,7 @@ final public class RuleSetFactory {
 
     public static boolean isAnyEmpty(List<String> values) {
         for (String value : values) {
-            if (value.isEmpty()) return true;
+            if (value.isBlank()) return true;
         }
 
         return false;
