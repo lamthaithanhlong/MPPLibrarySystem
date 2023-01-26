@@ -1,7 +1,6 @@
 package org.miu.mpp.ui.checkoutbook;
 
 import org.miu.mpp.models.BookCopy;
-import org.miu.mpp.models.CheckoutEntry;
 import org.miu.mpp.models.CheckoutRecord;
 import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
@@ -10,7 +9,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,9 +21,9 @@ import java.util.stream.Collectors;
  * Time 20:29
  */
 public class CheckoutHistoryWindow extends JFrameAddMultiple {
+    public static CheckoutHistoryWindow checkoutHistoryWindowInstance = new CheckoutHistoryWindow();
 
-    private final CheckoutBookController checkoutBookController;
-
+    private CheckoutBookController checkoutBookController;
 
     private JLabel memberIdLabel, isbnLabel;
     private JTextField memberField, isbnField;
@@ -47,10 +45,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
     }
 
 
-    private CheckoutHistoryWindow() {
-        this.checkoutBookController = new CheckoutBookController();
-        initData();
-    }
+    private CheckoutHistoryWindow() {}
 
     private void setIsbnFieldText(String text) {
         isbnField.setText(text);
@@ -73,7 +68,8 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
     }
 
 
-    private void initData() {
+    public void initData() {
+        this.checkoutBookController = new CheckoutBookController();
 
         allCheckoutRecords = checkoutBookController.getAllCheckoutRecords();
         allCheckoutRecordsPojo = getCheckoutPojo(allCheckoutRecords);
@@ -81,7 +77,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
 
         JButton goBackBtn = new JButton("<< Go Back");
         goBackBtn.setBounds(20, 10, 100, 30);
-        goBackBtn.addActionListener(v -> LibrarySystem.librarySystemInstance.init());
+        goBackBtn.addActionListener(v -> LibrarySystem.librarySystemInstance.initAndShow());
 
         JLabel titleLabel = new JLabel("You can filter by entering an of the fields below or just click on search to view all records");
         titleLabel.setBounds(26, 33, 600, 60);
@@ -119,7 +115,6 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
 
         setSize(600, 500);
         setLayout(null);
-        setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 

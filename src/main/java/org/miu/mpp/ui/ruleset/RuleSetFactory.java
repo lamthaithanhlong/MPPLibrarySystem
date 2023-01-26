@@ -2,6 +2,8 @@ package org.miu.mpp.ui.ruleset;
 
 import org.miu.mpp.ui.checkoutbook.CheckoutBookRulesSet;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
+import org.miu.mpp.ui.admin.AddBookRuleSet;
+import org.miu.mpp.ui.admin.AddBookWindow;
 import org.miu.mpp.ui.login.LoginRulesSet;
 import org.miu.mpp.ui.login.LoginWindow;
 
@@ -17,6 +19,7 @@ final public class RuleSetFactory {
 
     static {
         map.put(LoginWindow.class, new LoginRulesSet());
+        map.put(AddBookWindow.class, new AddBookRuleSet());
         map.put(CheckoutBookWindow.class, new CheckoutBookRulesSet());
     }
 
