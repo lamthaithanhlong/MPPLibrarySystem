@@ -71,7 +71,7 @@ public class LibrarySystem extends JFrameAddMultiple {
         constraints.insets = new Insets(5, 5, 5, 5);
         constraints.anchor = GridBagConstraints.CENTER;
 
-        checkoutHistoryBtn = new JButton("CheckOut History");
+        checkoutHistoryBtn = new JButton("Checkout History");
         checkoutHistoryBtn.setPreferredSize(new Dimension(150, 40));
         panel.add(checkoutHistoryBtn, constraints);
         checkoutHistoryBtn.addActionListener(new CheckoutHistoryClickListener());
@@ -185,7 +185,6 @@ public class LibrarySystem extends JFrameAddMultiple {
 
             CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
             Util.centerFrameOnDesktop(CheckoutHistoryWindow.checkoutHistoryWindowInstance);
-
             CheckoutHistoryWindow.checkoutHistoryWindowInstance.setVisible(true);
         }
     }
