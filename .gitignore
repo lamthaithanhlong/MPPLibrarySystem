@@ -19,6 +19,8 @@ build/
 *.tar
 /out/
 
+/target
+target/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -33,4 +35,5 @@ bin/
 *.class
 *.hprof
 *.DS_Store
-transform-dump
+*.jar
+/lib
