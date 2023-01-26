@@ -1,6 +1,5 @@
 package org.miu.mpp.ui.checkoutbook;
 
-import org.miu.mpp.ui.login.LoginWindow;
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSet;
 import org.miu.mpp.ui.ruleset.RuleSetFactory;
@@ -19,8 +18,10 @@ public class CheckoutBookRulesSet implements RuleSet {
     public void applyRules(Component ob) throws RuleException {
         CheckoutBookWindow checkoutBookWindow = (CheckoutBookWindow) ob;
 
+        if (RuleSetFactory.isAnyEmpty(List.of(checkoutBookWindow.getMemberIdFieldText(), checkoutBookWindow.getIsbnFieldText()))) {
 
-        if (RuleSetFactory.isAnyEmpty(List.of(checkoutBookWindow.getIsbnLabelText(), checkoutBookWindow.getIsbnLabelText())))
-            throw new RuleException("id or password cannot be empty");
+            System.out.println("Log checkout rule!!!");
+            throw new RuleException("Member ID or ISBN cannot be empty");
+        }
     }
 }

@@ -42,7 +42,7 @@ final public class RuleSetFactory {
 
     public static boolean isAnyEmpty(List<String> values) {
         for (String value : values) {
-            if (value.isEmpty()) return true;
+            if (value.isBlank()) return true;
         }
 
         return false;
