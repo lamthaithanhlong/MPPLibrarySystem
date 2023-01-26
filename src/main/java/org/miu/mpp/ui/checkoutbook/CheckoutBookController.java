@@ -57,7 +57,7 @@ public class CheckoutBookController {
 		});
 		
 		for(LibraryMember member : members){
-			if(null != member.getCheckoutRecord())
+			if(member.getCheckoutRecord()!=null)
 				records.add(member.getCheckoutRecord());
 		}
 

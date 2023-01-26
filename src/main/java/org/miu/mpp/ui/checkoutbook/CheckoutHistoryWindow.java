@@ -1,5 +1,6 @@
 package org.miu.mpp.ui.checkoutbook;
 
+import org.miu.mpp.models.BookCopy;
 import org.miu.mpp.models.CheckoutEntry;
 import org.miu.mpp.models.CheckoutRecord;
 import org.miu.mpp.ui.LibrarySystem;
@@ -10,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +35,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
 
     private DefaultTableModel model;
     List<CheckoutRecord> allCheckoutRecords;
+    List<CheckOutHistoryPojo> allCheckoutRecordsPojo;
 
 
     public String getMemberIdFieldText() {
@@ -73,6 +76,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
     private void initData() {
 
         allCheckoutRecords = checkoutBookController.getAllCheckoutRecords();
+        allCheckoutRecordsPojo = getCheckoutPojo(allCheckoutRecords);
 
 
         JButton goBackBtn = new JButton("<< Go Back");
@@ -119,6 +123,15 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    private List<CheckOutHistoryPojo> getCheckoutPojo(List<CheckoutRecord> allCheckoutRecords) {
+        List<CheckOutHistoryPojo> checkOutHistoryPojos = new ArrayList<>();
+
+        allCheckoutRecords.forEach(v -> v.getEntries().forEach(y -> checkOutHistoryPojos
+                .add(new CheckOutHistoryPojo(y.getBookCopy(), y.getCheckoutDate(), y.getDueDate(), v.getMemberId(), y.getDueFee()))));
+
+        return checkOutHistoryPojos;
+    }
+
     private void getTable() {
         if (Objects.nonNull(model)) {
             model.setRowCount(0);
@@ -137,19 +150,17 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
         table.setModel(model);
 
 
-        for (CheckoutRecord cr : allCheckoutRecords) {
-            for (CheckoutEntry ce : cr.getEntries()) {
-                model.insertRow(0, new String[]{
-                        cr.getMemberId(),
-                        ce.getBookCopy().getBook().getTitle(),
-                        ce.getBookCopy().getBook().getIsbn(),
-                        String.valueOf(ce.getBookCopy().getCopyNum()),
-                        ce.getCheckoutDate().toString(),
-                        ce.getDueDate().toString(),
-                        "$" + ce.getDueFee()
-                });
-            }
-
+        for (CheckOutHistoryPojo cr : allCheckoutRecordsPojo) {
+//            for (CheckoutEntry ce : cr.getEntries()) {
+            model.insertRow(0, new String[]{
+                    cr.getMemberId(),
+                    cr.getBookCopy().getBook().getTitle(),
+                    cr.getBookCopy().getBook().getIsbn(),
+                    String.valueOf(cr.getBookCopy().getCopyNum()),
+                    cr.getCheckoutDate().toString(),
+                    cr.getDueDate().toString(),
+                    "$" + cr.getAmountDue()
+            });
         }
         scrollPane.setViewportView(table);
         add(scrollPane);
@@ -158,16 +169,13 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
     private void addSearchFilter() {
 
         if (!getIsbnFieldText().isBlank()) {
-            allCheckoutRecords = allCheckoutRecords.stream()
-                    .filter(v -> v.getEntries().stream()
-                            .anyMatch(e -> e.getBookCopy().getBook().getIsbn().equalsIgnoreCase(getIsbnFieldText())))
-                    .collect(Collectors.toList());
+            allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getBookCopy().getBook().getIsbn().equalsIgnoreCase(getIsbnFieldText())).collect(Collectors.toList());
         }
         if (!getMemberIdFieldText().isBlank()) {
-            allCheckoutRecords = allCheckoutRecords.stream().filter(v -> v.getMemberId().equalsIgnoreCase(getMemberIdFieldText())).collect(Collectors.toList());
+            allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getMemberId().equalsIgnoreCase(getMemberIdFieldText())).collect(Collectors.toList());
         }
         if (getMemberIdFieldText().isBlank() && getIsbnFieldText().isBlank()) {
-            allCheckoutRecords = checkoutBookController.getAllCheckoutRecords();
+            allCheckoutRecordsPojo = getCheckoutPojo(allCheckoutRecords);
         }
 
         getTable();
@@ -177,5 +185,41 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
         new CheckoutHistoryWindow();
     }
 
+
+    class CheckOutHistoryPojo {
+        private BookCopy bookCopy;
+        private LocalDate checkoutDate;
+        private LocalDate dueDate;
+        private String memberId;
+        private double amountDue;
+
+        public CheckOutHistoryPojo(BookCopy bookCopy, LocalDate checkoutDate, LocalDate dueDate, String memberId, double dueFee) {
+            this.bookCopy = bookCopy;
+            this.checkoutDate = checkoutDate;
+            this.dueDate = dueDate;
+            this.memberId = memberId;
+            this.amountDue = dueFee;
+        }
+
+        public BookCopy getBookCopy() {
+            return bookCopy;
+        }
+
+        public LocalDate getCheckoutDate() {
+            return checkoutDate;
+        }
+
+        public LocalDate getDueDate() {
+            return dueDate;
+        }
+
+        public String getMemberId() {
+            return memberId;
+        }
+
+        public double getAmountDue() {
+            return amountDue;
+        }
+    }
 
 }
