@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddBookWindow extends JFrameAddMultiple {
-    public static AddBookWindow AddBookWindowInstance = new AddBookWindow();
+    public static AddBookWindow addBookWindowInstance = new AddBookWindow();
 
     String[] checkoutBookLength = {"7", "21"};
 
@@ -55,8 +55,6 @@ public class AddBookWindow extends JFrameAddMultiple {
 
     public void init() {
         setTitle("Book Management");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
 
         mainPanel = new JPanel(new BorderLayout());
         scrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -119,7 +117,6 @@ public class AddBookWindow extends JFrameAddMultiple {
         addAuthorView();
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
-        setVisible(true);
         setBounds(100, 100, 600, 500);
         setLocationRelativeTo(null);
     }
@@ -139,6 +136,6 @@ public class AddBookWindow extends JFrameAddMultiple {
     }
 
     public static void main(String[] args) {
-        AddBookWindow.AddBookWindowInstance.init();
+        AddBookWindow.addBookWindowInstance.init();
     }
 }

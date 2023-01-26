@@ -3,13 +3,11 @@ package org.miu.mpp.ui.checkoutbook;
 import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
-import org.miu.mpp.ui.base.SearchPanelTopPanel;
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSetFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -20,15 +18,14 @@ import java.util.Arrays;
  */
 public class CheckoutBookWindow extends JFrameAddMultiple {
 
-    private final CheckoutBookController checkoutBookController;
+    public static CheckoutBookWindow checkoutBookWindowInstance = new CheckoutBookWindow();
+
+    private CheckoutBookController checkoutBookController;
 
     private JLabel memberIdLabel, isbnLabel;
     private JTextField memberField, isbnField;
 
-    private CheckoutBookWindow() {
-        initData();
-        this.checkoutBookController = new CheckoutBookController();
-    }
+    private CheckoutBookWindow() {}
 
     public String getMemberIdFieldText() {
         return memberField.getText().trim();
@@ -43,10 +40,9 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
     }
 
     public void initData() {
-
+        this.checkoutBookController = new CheckoutBookController();
 
         setTitle("Checkout Book");
-
 
         JLabel titleLabel = new JLabel("Enter Member ID & ISBN to Checkout a book ");
         titleLabel.setBounds(126, 33, 600, 60);
@@ -55,7 +51,7 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
 
         JButton goBackBtn = new JButton("<< Go Back");
         goBackBtn.setBounds(20, 10, 100, 30);
-        goBackBtn.addActionListener(v -> LibrarySystem.librarySystemInstance.init());
+        goBackBtn.addActionListener(v -> LibrarySystem.librarySystemInstance.initAndShow());
 
         memberIdLabel = new JLabel("Member ID: ");
         memberIdLabel.setBounds(20, 100, 200, 30);
@@ -82,7 +78,6 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
 
         setSize(600, 500);
         setLayout(null);
-        setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 

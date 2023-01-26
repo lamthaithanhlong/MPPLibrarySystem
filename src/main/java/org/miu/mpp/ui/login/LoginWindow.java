@@ -6,12 +6,13 @@ import org.miu.mpp.ui.base.JFrameAddMultiple;
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSetFactory;
 import org.miu.mpp.utils.SystemController;
+import org.miu.mpp.utils.Util;
 
 import javax.swing.*;
 import java.util.List;
 
 public class LoginWindow extends JFrameAddMultiple {
-    public static LoginWindow LoginWindowInstance = new LoginWindow();
+    public static LoginWindow loginWindowInstance = new LoginWindow();
     private JTextField idField;
     private JTextField passwordField;
 
@@ -68,7 +69,11 @@ public class LoginWindow extends JFrameAddMultiple {
 
             try {
                 systemController.login(idField.getText().trim(), passwordField.getText());
+
+                LibrarySystem.hideAllWindows();
                 LibrarySystem.librarySystemInstance.initAndShow();
+                Util.centerFrameOnDesktop(LibrarySystem.librarySystemInstance);
+//                LibrarySystem.librarySystemInstance.initAndShow();
             } catch (LoginException exception) {
                 new Dialog("Error", exception.getMessage(), true);
             }
@@ -80,6 +85,6 @@ public class LoginWindow extends JFrameAddMultiple {
     }
 
     public static void main(String[] args) {
-        LoginWindow.LoginWindowInstance.init();
+        LoginWindow.loginWindowInstance.init();
     }
 }

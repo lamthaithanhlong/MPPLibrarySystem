@@ -19,7 +19,7 @@ public class Main {
                     }
                 } catch (Exception e) {
                 }
-                LoginWindow.LoginWindowInstance.init();
+                LoginWindow.loginWindowInstance.init();
             }
         });
     }

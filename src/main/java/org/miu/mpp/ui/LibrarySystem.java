@@ -3,9 +3,9 @@ package org.miu.mpp.ui;
 import org.miu.mpp.models.Auth;
 import org.miu.mpp.ui.admin.AddBookWindow;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
-import org.miu.mpp.ui.checkoutbook.CheckoutBookController;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
 import org.miu.mpp.ui.checkoutbook.CheckoutHistoryWindow;
+import org.miu.mpp.ui.login.LoginWindow;
 import org.miu.mpp.utils.ControllerInterface;
 import org.miu.mpp.utils.SystemController;
 import org.miu.mpp.utils.Util;
@@ -28,14 +28,26 @@ public class LibrarySystem extends JFrameAddMultiple {
     private JPanel panel;
     private ImageIcon backgroundImage;
 
+    private static JFrameAddMultiple[] allWindows = {
+            LibrarySystem.librarySystemInstance,
+            LoginWindow.loginWindowInstance,
+            AddBookWindow.addBookWindowInstance,
+            CheckoutBookWindow.checkoutBookWindowInstance,
+            CheckoutHistoryWindow.checkoutHistoryWindowInstance
+    };
+
     private LibrarySystem() {
+    }
+
+    public static void hideAllWindows() {
+        for (JFrameAddMultiple frame : allWindows) {
+            frame.setVisible(false);
+        }
     }
 
     public void initAndShow() {
         setTitle("Welcome to Starboys LMS");
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
 
         addDashboardItems();
     }
@@ -131,7 +143,12 @@ public class LibrarySystem extends JFrameAddMultiple {
     class CheckoutBookClickListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            CheckoutBookWindow.displayCheckOutBookWindow();
+            LibrarySystem.hideAllWindows();
+
+            CheckoutBookWindow.checkoutBookWindowInstance.initData();
+            Util.centerFrameOnDesktop(CheckoutBookWindow.checkoutBookWindowInstance);
+
+            CheckoutBookWindow.checkoutBookWindowInstance.setVisible(true);
         }
     }
 
@@ -152,18 +169,24 @@ public class LibrarySystem extends JFrameAddMultiple {
     class BookClickListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            AddBookWindow.AddBookWindowInstance.init();
-            Util.centerFrameOnDesktop(AddBookWindow.AddBookWindowInstance);
+            LibrarySystem.hideAllWindows();
 
-            AddBookWindow.AddBookWindowInstance.setVisible(true);
+            AddBookWindow.addBookWindowInstance.init();
+            Util.centerFrameOnDesktop(AddBookWindow.addBookWindowInstance);
+
+            AddBookWindow.addBookWindowInstance.setVisible(true);
         }
     }
 
     class CheckoutHistoryClickListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            CheckoutHistoryWindow.loadCheckoutHistoryFromDashboard();
-            //TODO: Add call to open CheckoutHistoryWindow
+            LibrarySystem.hideAllWindows();
+
+            CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
+            Util.centerFrameOnDesktop(CheckoutHistoryWindow.checkoutHistoryWindowInstance);
+
+            CheckoutHistoryWindow.checkoutHistoryWindowInstance.setVisible(true);
         }
     }
 
