@@ -2,6 +2,7 @@ package org.miu.mpp.ui;
 
 import org.miu.mpp.models.Auth;
 import org.miu.mpp.ui.admin.AddBookWindow;
+import org.miu.mpp.ui.admin.addmember.AddMemberWindow;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
 import org.miu.mpp.ui.checkoutbook.CheckoutHistoryWindow;
@@ -162,7 +163,11 @@ public class LibrarySystem extends JFrameAddMultiple {
     class AddMemberClickListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: Add call to open AddMemberWindow
+            LibrarySystem.hideAllWindows();
+
+            AddMemberWindow.addMemberWindowInstance.initData();
+            Util.centerFrameOnDesktop(AddMemberWindow.addMemberWindowInstance);
+            AddMemberWindow.addMemberWindowInstance.setVisible(true);
         }
     }
 

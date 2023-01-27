@@ -1,5 +1,7 @@
 package org.miu.mpp.ui.ruleset;
 
+import org.miu.mpp.ui.admin.addmember.AddMemberRuleSet;
+import org.miu.mpp.ui.admin.addmember.AddMemberWindow;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookRulesSet;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
 import org.miu.mpp.ui.admin.AddBookRuleSet;
@@ -10,6 +12,8 @@ import org.miu.mpp.ui.login.LoginWindow;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 final public class RuleSetFactory {
     private RuleSetFactory() {
@@ -21,6 +25,7 @@ final public class RuleSetFactory {
         map.put(LoginWindow.class, new LoginRulesSet());
         map.put(AddBookWindow.class, new AddBookRuleSet());
         map.put(CheckoutBookWindow.class, new CheckoutBookRulesSet());
+        map.put(AddMemberWindow.class, new AddMemberRuleSet());
     }
 
     public static RuleSet getRuleSet(Component c) {
@@ -49,6 +54,30 @@ final public class RuleSetFactory {
         }
 
         return false;
+    }
+
+    public static boolean isValidZipCode(String zipCode) {
+        // Regular expression to match a US zip code
+        String zipCodePattern = "^[0-9]{5}(?:-[0-9]{4})?$";
+
+        // Compile the regular expression
+        Pattern pattern = Pattern.compile(zipCodePattern);
+
+        // Check if the zip code matches the regular expression
+        Matcher matcher = pattern.matcher(zipCode);
+        return matcher.matches();
+    }
+
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        // Regular expression to match a phone number with an optional country code
+        String phoneNumberPattern = "^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$";
+
+        // Compile the regular expression
+        Pattern pattern = Pattern.compile(phoneNumberPattern);
+
+        // Check if the phone number matches the regular expression
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
     }
 
     public static boolean isExactLength(String str, int len) {

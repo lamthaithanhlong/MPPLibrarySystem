@@ -12,6 +12,7 @@ public class AddBookRuleSet implements RuleSet {
 
     @Override
     public void applyRules(Component ob) throws RuleException {
+
         AddBookWindow addBookWindow = (AddBookWindow) ob;
 
         isbn = addBookWindow.getIsbnTf();

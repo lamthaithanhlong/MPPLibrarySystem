@@ -79,6 +79,14 @@ public class DataAccessFacade implements DataAccess {
         saveToStorage(StorageType.USERS, users);
     }
 
+
+    @Override
+    public void saveNewUser(User user) {
+        HashMap<String, User> userMap = readUserMap();
+        userMap.put(user.getId(),user);
+        saveToStorage(StorageType.USERS, userMap);
+    }
+
     static void loadMemberMap(List<LibraryMember> memberList) {
         HashMap<String, LibraryMember> members = new HashMap<String, LibraryMember>();
         memberList.forEach(member -> members.put(member.getMemberId(), member));
