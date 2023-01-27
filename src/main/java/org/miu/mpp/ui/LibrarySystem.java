@@ -1,7 +1,8 @@
 package org.miu.mpp.ui;
 
 import org.miu.mpp.models.Auth;
-import org.miu.mpp.ui.admin.AddBookWindow;
+import org.miu.mpp.ui.admin.addbook.AddBookWindow;
+import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyWindow;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
 import org.miu.mpp.ui.checkoutbook.CheckoutHistoryWindow;
@@ -25,6 +26,7 @@ public class LibrarySystem extends JFrameAddMultiple {
     private JButton overduePublicationsBtn;
     private JButton addMemberBtn;
     private JButton addNewBookBtn;
+    private JButton addBookCopy;
     private JPanel panel;
     private ImageIcon backgroundImage;
 
@@ -33,7 +35,8 @@ public class LibrarySystem extends JFrameAddMultiple {
             LoginWindow.loginWindowInstance,
             AddBookWindow.addBookWindowInstance,
             CheckoutBookWindow.checkoutBookWindowInstance,
-            CheckoutHistoryWindow.checkoutHistoryWindowInstance
+            CheckoutHistoryWindow.checkoutHistoryWindowInstance,
+            AddBookCopyWindow.addBookCopyWindowInstance
     };
 
     private LibrarySystem() {
@@ -111,6 +114,13 @@ public class LibrarySystem extends JFrameAddMultiple {
         panel.add(addNewBookBtn, constraints);
         addNewBookBtn.addActionListener(new BookClickListener());
 
+        addBookCopy = new JButton("Add Book Copy");
+        constraints.gridx = 3;
+        constraints.gridy = 1;
+        addBookCopy.setPreferredSize(new Dimension(150, 40));
+        panel.add(addBookCopy, constraints);
+        addBookCopy.addActionListener(new AddBookCopyListener());
+
         removeComponentBasedOnRole();
 
         add(panel);
@@ -175,6 +185,18 @@ public class LibrarySystem extends JFrameAddMultiple {
             Util.centerFrameOnDesktop(AddBookWindow.addBookWindowInstance);
 
             AddBookWindow.addBookWindowInstance.setVisible(true);
+        }
+    }
+
+    class AddBookCopyListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            LibrarySystem.hideAllWindows();
+
+            AddBookCopyWindow.addBookCopyWindowInstance.init();
+            Util.centerFrameOnDesktop(AddBookCopyWindow.addBookCopyWindowInstance);
+
+            AddBookCopyWindow.addBookCopyWindowInstance.setVisible(true);
         }
     }
 

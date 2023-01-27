@@ -1,9 +1,11 @@
 package org.miu.mpp.ui.ruleset;
 
+import org.miu.mpp.ui.admin.addbook.AddBookRuleSet;
+import org.miu.mpp.ui.admin.addbook.AddBookWindow;
+import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyRuleSet;
+import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyWindow;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookRulesSet;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
-import org.miu.mpp.ui.admin.AddBookRuleSet;
-import org.miu.mpp.ui.admin.AddBookWindow;
 import org.miu.mpp.ui.login.LoginRulesSet;
 import org.miu.mpp.ui.login.LoginWindow;
 
@@ -21,6 +23,7 @@ final public class RuleSetFactory {
         map.put(LoginWindow.class, new LoginRulesSet());
         map.put(AddBookWindow.class, new AddBookRuleSet());
         map.put(CheckoutBookWindow.class, new CheckoutBookRulesSet());
+        map.put(AddBookCopyWindow.class, new AddBookCopyRuleSet());
     }
 
     public static RuleSet getRuleSet(Component c) {

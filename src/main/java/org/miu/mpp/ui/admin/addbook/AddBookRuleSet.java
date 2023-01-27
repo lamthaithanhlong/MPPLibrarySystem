@@ -1,4 +1,4 @@
-package org.miu.mpp.ui.admin;
+package org.miu.mpp.ui.admin.addbook;
 
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSet;
