@@ -7,6 +7,7 @@ import org.miu.mpp.ui.base.JFrameAddMultiple;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
 import org.miu.mpp.ui.checkoutbook.CheckoutHistoryWindow;
 import org.miu.mpp.ui.login.LoginWindow;
+import org.miu.mpp.ui.returnbook.ReturnBookWindow;
 import org.miu.mpp.utils.ControllerInterface;
 import org.miu.mpp.utils.SystemController;
 import org.miu.mpp.utils.Util;
@@ -36,7 +37,8 @@ public class LibrarySystem extends JFrameAddMultiple {
             AddBookWindow.addBookWindowInstance,
             CheckoutBookWindow.checkoutBookWindowInstance,
             CheckoutHistoryWindow.checkoutHistoryWindowInstance,
-            AddBookCopyWindow.addBookCopyWindowInstance
+            AddBookCopyWindow.addBookCopyWindowInstance,
+            ReturnBookWindow.returnBookWindowInstance
     };
 
     private LibrarySystem() {
@@ -133,6 +135,7 @@ public class LibrarySystem extends JFrameAddMultiple {
         if (loggedInUserAuth == Auth.LIBRARIAN) {
             panel.remove(addMemberBtn);
             panel.remove(addNewBookBtn);
+            panel.remove(addBookCopy);
         }
 
         if (loggedInUserAuth == Auth.ADMIN) {
@@ -146,7 +149,11 @@ public class LibrarySystem extends JFrameAddMultiple {
     class ReturnBookClickListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: Add call to open ReturnBookWindow
+            LibrarySystem.hideAllWindows();
+
+            ReturnBookWindow.returnBookWindowInstance.init();
+            Util.centerFrameOnDesktop(ReturnBookWindow.returnBookWindowInstance);
+            ReturnBookWindow.returnBookWindowInstance.setVisible(true);
         }
     }
 

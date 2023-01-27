@@ -8,6 +8,8 @@ import org.miu.mpp.ui.checkoutbook.CheckoutBookRulesSet;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
 import org.miu.mpp.ui.login.LoginRulesSet;
 import org.miu.mpp.ui.login.LoginWindow;
+import org.miu.mpp.ui.returnbook.ReturnBookWindow;
+import org.miu.mpp.ui.returnbook.ReturnBookWindowRuleSet;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -24,6 +26,7 @@ final public class RuleSetFactory {
         map.put(AddBookWindow.class, new AddBookRuleSet());
         map.put(CheckoutBookWindow.class, new CheckoutBookRulesSet());
         map.put(AddBookCopyWindow.class, new AddBookCopyRuleSet());
+        map.put(ReturnBookWindow.class, new ReturnBookWindowRuleSet());
     }
 
     public static RuleSet getRuleSet(Component c) {
