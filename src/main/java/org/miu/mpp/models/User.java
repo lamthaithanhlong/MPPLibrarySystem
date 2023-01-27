@@ -10,17 +10,28 @@ final public class User implements Serializable {
 
     private String password;
     private Auth authorization;
+    private Person person;
     public User(String id, String pass, Auth  auth) {
         this.id = id;
         this.password = pass;
         this.authorization = auth;
     }
+    public User(String id, String pass, Auth  auth,Person person) {
+        this.person = person;
+        this.id = id;
+        this.password = pass;
+        this.authorization = auth;
+    }
+
 
     public String getId() {
         return id;
     }
     public String getPassword() {
         return password;
+    }
+    public Person getPerson(){
+        return person;
     }
     public Auth getAuthorization() {
         return authorization;

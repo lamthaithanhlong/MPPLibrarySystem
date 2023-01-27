@@ -5,6 +5,7 @@ import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSetFactory;
+import org.miu.mpp.utils.Util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,7 +52,11 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
 
         JButton goBackBtn = new JButton("<< Go Back");
         goBackBtn.setBounds(20, 10, 100, 30);
-        goBackBtn.addActionListener(v -> LibrarySystem.librarySystemInstance.initAndShow());
+
+        goBackBtn.addActionListener(v -> {
+            LibrarySystem.hideAllWindows();
+            LibrarySystem.librarySystemInstance.initAndShow();
+        });
 
         memberIdLabel = new JLabel("Member ID: ");
         memberIdLabel.setBounds(20, 100, 200, 30);

@@ -77,7 +77,10 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
 
         JButton goBackBtn = new JButton("<< Go Back");
         goBackBtn.setBounds(20, 10, 100, 30);
-        goBackBtn.addActionListener(v -> LibrarySystem.librarySystemInstance.initAndShow());
+        goBackBtn.addActionListener(v -> {
+            LibrarySystem.hideAllWindows();
+            LibrarySystem.librarySystemInstance.initAndShow();
+        });
 
         JLabel titleLabel = new JLabel("You can filter by entering an of the fields below or just click on search to view all records");
         titleLabel.setBounds(26, 33, 600, 60);
