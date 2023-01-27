@@ -47,7 +47,7 @@ public class AddMemberController {
 
 
         String id = null;
-        if (memberDetailsPojo.getMemberRole().equalsIgnoreCase("LIBRARY_MEMBER")) {
+        if (memberDetailsPojo.getMemberRole().equalsIgnoreCase("LIBRARY MEMBER")) {
 
             List<LibraryMember> libraryMembers = new ArrayList<>(da.readMemberMap().values());
             for (LibraryMember v : libraryMembers) {
@@ -88,7 +88,7 @@ public class AddMemberController {
                 return Auth.LIBRARIAN;
             case "ADMIN":
                 return Auth.ADMIN;
-            case "ADMIN_AND_LIBERIAN":
+            case "ADMIN AND LIBERIAN":
                 return Auth.BOTH;
             default:
                 return null;

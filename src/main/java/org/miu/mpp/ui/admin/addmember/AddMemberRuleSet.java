@@ -47,7 +47,7 @@ public class AddMemberRuleSet implements RuleSet {
             System.out.println("zip "+zip);
             throw new RuleException("Please ensure no fields are empty");
         }
-        if (!role.equalsIgnoreCase("LIBRARY_MEMBER")) {
+        if (!role.equalsIgnoreCase("LIBRARY MEMBER")) {
             if (RuleSetFactory.isAnyEmpty(List.of(password))) {
                 throw new RuleException("Password is required for user role: " + role);
             }

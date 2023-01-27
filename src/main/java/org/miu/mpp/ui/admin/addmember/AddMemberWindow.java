@@ -28,7 +28,7 @@ public class AddMemberWindow extends JFrameAddMultiple {
     private String selectedRole;
     private JButton addMemberBtn;
 
-    String[] memberRoles = {"LIBRARY_MEMBER", "LIBERIAN", "ADMIN", "ADMIN_AND_LIBERIAN"};
+    String[] memberRoles = {"LIBRARY MEMBER", "LIBERIAN", "ADMIN", "ADMIN AND LIBERIAN"};
 
 
     public String getFirstNameFieldValue() {
@@ -186,7 +186,7 @@ public class AddMemberWindow extends JFrameAddMultiple {
 
         role.addItemListener(e -> {
             setSelectedRole((String) e.getItem());
-            if (e.getItem().equals("LIBRARY_MEMBER")) {
+            if (e.getItem().equals("LIBRARY MEMBER")) {
                 passwordField.setVisible(false);
                 passwordLabel.setVisible(false);
             } else {
