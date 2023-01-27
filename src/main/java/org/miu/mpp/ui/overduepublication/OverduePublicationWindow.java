@@ -1,10 +1,11 @@
-package org.miu.mpp.ui.checkoutbook;
+package org.miu.mpp.ui.overduepublication;
 
-import org.miu.mpp.models.BookCopy;
 import org.miu.mpp.models.CheckoutRecord;
 import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
-import org.miu.mpp.ui.returnbook.ReturnBookWindow;
+import org.miu.mpp.ui.checkoutbook.CheckOutHistoryPojo;
+import org.miu.mpp.ui.checkoutbook.CheckoutBookController;
+import org.miu.mpp.ui.checkoutbook.CheckoutHistoryWindow;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,58 +19,43 @@ import java.util.stream.Collectors;
 
 /**
  * @author bazz
- * Date Jan 25 2023
- * Time 20:29
+ * Date Jan 27 2023
+ * Time 13:43
  */
-public class CheckoutHistoryWindow extends JFrameAddMultiple {
-    public static CheckoutHistoryWindow checkoutHistoryWindowInstance = new CheckoutHistoryWindow();
+public class OverduePublicationWindow extends JFrameAddMultiple {
+    public static OverduePublicationWindow overduePublicationWindowInstace = new OverduePublicationWindow();
+
 
     private CheckoutBookController checkoutBookController;
 
-    private JLabel memberIdLabel, isbnLabel;
-    private JTextField memberField, isbnField;
+    private JLabel isbnLabel;
+    private JTextField isbnField;
     private JTable table;
 
     private JScrollPane scrollPane;
 
     private DefaultTableModel model;
-    List<CheckoutRecord> allCheckoutRecords;
     List<CheckOutHistoryPojo> allCheckoutRecordsPojo;
 
-
-    public String getMemberIdFieldText() {
-        return memberField.getText().trim();
-    }
 
     public String getIsbnFieldText() {
         return isbnField.getText().trim();
     }
 
 
-    private CheckoutHistoryWindow() {}
-
     private void setIsbnFieldText(String text) {
         isbnField.setText(text);
     }
 
-    private void setMemberIdField(String text) {
-        memberField.setText(text);
-    }
 
-    public static void loadCheckoutHistoryWindowWithFilter(String isbn, String memberId) {
-        CheckoutHistoryWindow checkoutHistoryWindow = new CheckoutHistoryWindow();
-        checkoutHistoryWindow.setIsbnFieldText(isbn);
-        checkoutHistoryWindow.setMemberIdField(memberId);
-        checkoutHistoryWindow.addSearchFilter();
-
+    private OverduePublicationWindow() {
     }
 
 
     public void initData() {
         this.checkoutBookController = new CheckoutBookController();
 
-        allCheckoutRecords = checkoutBookController.getAllCheckoutRecords();
-        allCheckoutRecordsPojo = getCheckoutPojo(allCheckoutRecords);
+        allCheckoutRecordsPojo = getCheckoutPojo(checkoutBookController.getAllCheckoutRecords());
 
 
         JButton goBackBtn = new JButton("<< Go Back");
@@ -79,26 +65,18 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
             LibrarySystem.librarySystemInstance.initAndShow();
         });
 
-        JLabel titleLabel = new JLabel("You can filter by entering an of the fields below or just click on search to view all records");
+        JLabel titleLabel = new JLabel("You can filter by entering ISBN below or just click on search to view all records");
         titleLabel.setBounds(26, 33, 600, 60);
         titleLabel.setFont(new Font(titleLabel.getFont().getName(), Font.ITALIC, titleLabel.getFont().getSize()));
         titleLabel.setForeground(Color.BLUE);
 
-        setTitle("Book Checkout History");
-
-
-        memberIdLabel = new JLabel("Member ID: ");
-        memberIdLabel.setBounds(25, 80, 150, 30);
-
-        memberField = new JTextField();
-        memberField.setBounds(20, 105, 180, 30);
-
+        setTitle("Overdue Publications");
 
         isbnLabel = new JLabel("ISBN: ");
-        isbnLabel.setBounds(205, 80, 150, 30);
+        isbnLabel.setBounds(25, 80, 150, 30);
 
         isbnField = new JTextField();
-        isbnField.setBounds(200, 105, 180, 30);
+        isbnField.setBounds(20, 105, 180, 30);
 
         JButton jButton = new JButton("Search");
         jButton.setBounds(400, 105, 100, 30);
@@ -111,7 +89,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
         getTable();
 
 
-        addAll(Arrays.asList(memberField, memberIdLabel, isbnLabel, isbnField, jButton, scrollPane, goBackBtn, titleLabel));
+        addAll(Arrays.asList(isbnLabel, isbnField, jButton, scrollPane, goBackBtn, titleLabel));
 
         setSize(600, 500);
         setLayout(null);
@@ -124,7 +102,8 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
         allCheckoutRecords.forEach(v -> v.getEntries().forEach(y -> checkOutHistoryPojos
                 .add(new CheckOutHistoryPojo(y.getBookCopy(), y.getCheckoutDate(), y.getDueDate(), v.getMemberId(), y.getDueFee()))));
 
-        return checkOutHistoryPojos;
+
+        return checkOutHistoryPojos.stream().filter(v -> v.getDueDate().isBefore(LocalDate.now())).collect(Collectors.toList());
     }
 
     private void getTable() {
@@ -168,19 +147,16 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
         if (!getIsbnFieldText().isBlank()) {
             allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getBookCopy().getBook().getIsbn().equalsIgnoreCase(getIsbnFieldText())).collect(Collectors.toList());
         }
-        if (!getMemberIdFieldText().isBlank()) {
-            allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getMemberId().equalsIgnoreCase(getMemberIdFieldText())).collect(Collectors.toList());
-        }
-        if (getMemberIdFieldText().isBlank() && getIsbnFieldText().isBlank()) {
-            allCheckoutRecordsPojo = getCheckoutPojo(allCheckoutRecords);
+        if (getIsbnFieldText().isBlank()) {
+            allCheckoutRecordsPojo = getCheckoutPojo(checkoutBookController.getAllCheckoutRecords());
         }
 
         getTable();
     }
 
-    public static void main(String[] args) {
-        CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
-        CheckoutHistoryWindow.checkoutHistoryWindowInstance.setVisible(true);
-    }
 
+    public static void main(String[] args) {
+        OverduePublicationWindow.overduePublicationWindowInstace.initData();
+        OverduePublicationWindow.overduePublicationWindowInstace.setVisible(true);
+    }
 }

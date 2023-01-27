@@ -3,6 +3,7 @@ package org.miu.mpp.ui.checkoutbook;
 import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
+import org.miu.mpp.ui.returnbook.ReturnBookWindow;
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSetFactory;
 import org.miu.mpp.utils.Util;
@@ -26,7 +27,8 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
     private JLabel memberIdLabel, isbnLabel;
     private JTextField memberField, isbnField;
 
-    private CheckoutBookWindow() {}
+    private CheckoutBookWindow() {
+    }
 
     public String getMemberIdFieldText() {
         return memberField.getText().trim();
@@ -59,26 +61,26 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
         });
 
         memberIdLabel = new JLabel("Member ID: ");
-        memberIdLabel.setBounds(20, 100, 200, 30);
+        memberIdLabel.setBounds(20, 70, 200, 30);
 
         memberField = new JTextField();
-        memberField.setBounds(20, 130, 300, 40);
+        memberField.setBounds(20, 95, 300, 30);
 
 
         isbnLabel = new JLabel("ISBN: ");
-        isbnLabel.setBounds(20, 170, 200, 30);
+        isbnLabel.setBounds(20, 130, 200, 30);
 
         isbnField = new JTextField();
-        isbnField.setBounds(20, 200, 300, 40);
+        isbnField.setBounds(20, 150, 300, 30);
 
 
         JButton jButton = new JButton("Checkout Book");
-        jButton.setBounds(350, 200, 140, 40);
+        jButton.setBounds(350, 150, 140, 30);
         jButton.addActionListener(v -> {
             checkRules();
         });
 
-        addAll(Arrays.asList(memberField, memberIdLabel, isbnLabel, isbnField, jButton,goBackBtn,titleLabel));
+        addAll(Arrays.asList(memberField, memberIdLabel, isbnLabel, isbnField, jButton, goBackBtn, titleLabel));
 
 
         setSize(600, 500);
@@ -94,7 +96,11 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
                 checkoutBookController.checkoutBook(memberField.getText().trim(), isbnField.getText().trim(), LocalDate.now());
                 new Dialog("Success", "Book checked out to member: " + memberField.getText() + " Successfully", false);
 
+                LibrarySystem.hideAllWindows();
                 CheckoutHistoryWindow.loadCheckoutHistoryWindowWithFilter("", memberField.getText().trim());
+                Util.centerFrameOnDesktop(CheckoutHistoryWindow.checkoutHistoryWindowInstance);
+                CheckoutHistoryWindow.checkoutHistoryWindowInstance.setVisible(true);
+
             } catch (CheckoutBookException exception) {
                 new Dialog("Error", exception.getMessage(), true);
             }
@@ -107,7 +113,8 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
 
 
     public static void main(String[] args) {
-        new CheckoutBookWindow();
+        CheckoutBookWindow.checkoutBookWindowInstance.initData();
+        CheckoutBookWindow.checkoutBookWindowInstance.setVisible(true);
     }
 
 }

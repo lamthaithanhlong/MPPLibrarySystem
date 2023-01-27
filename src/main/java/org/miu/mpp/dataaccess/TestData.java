@@ -1,7 +1,10 @@
 package org.miu.mpp.dataaccess;
 
 import org.miu.mpp.models.*;
+import org.miu.mpp.ui.checkoutbook.CheckoutBookController;
+import org.miu.mpp.ui.checkoutbook.CheckoutBookException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,14 +19,25 @@ import java.util.List;
  */
 public class TestData {
 
-    public static void main(String[] args) {
+    private CheckoutBookController checkoutBookController = new CheckoutBookController();
+
+    public static void main(String[] args) throws CheckoutBookException {
         TestData td = new TestData();
+
         td.bookData();
         td.libraryMemberData();
         td.userData();
+        td.checkOutData();
         DataAccess da = new DataAccessFacade();
         System.out.println(da.readBooksMap());
         System.out.println(da.readUserMap());
+    }
+
+    private void checkOutData() throws CheckoutBookException {
+        checkoutBookController.checkoutBook(members.get(0).getMemberId(), allBooks.get(0).getIsbn(), LocalDate.now().minusDays(40));
+        checkoutBookController.checkoutBook(members.get(0).getMemberId(), allBooks.get(0).getIsbn(), LocalDate.now().minusDays(40));
+        checkoutBookController.checkoutBook(members.get(1).getMemberId(), allBooks.get(1).getIsbn(), LocalDate.now().minusDays(40));
+        checkoutBookController.checkoutBook(members.get(2).getMemberId(), allBooks.get(2).getIsbn(), LocalDate.now().minusDays(40));
     }
 
     ///create books
@@ -102,4 +116,5 @@ public class TestData {
             add(new User("103", "111", Auth.BOTH));
         }
     };
+
 }
