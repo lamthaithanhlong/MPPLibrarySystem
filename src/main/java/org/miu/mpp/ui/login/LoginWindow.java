@@ -73,7 +73,6 @@ public class LoginWindow extends JFrameAddMultiple {
                 LibrarySystem.hideAllWindows();
                 LibrarySystem.librarySystemInstance.initAndShow();
                 Util.centerFrameOnDesktop(LibrarySystem.librarySystemInstance);
-//                LibrarySystem.librarySystemInstance.initAndShow();
             } catch (LoginException exception) {
                 new Dialog("Error", exception.getMessage(), true);
             }
@@ -86,5 +85,10 @@ public class LoginWindow extends JFrameAddMultiple {
 
     public static void main(String[] args) {
         LoginWindow.loginWindowInstance.init();
+    }
+
+    public void clearData() {
+        idField.setText("");
+        passwordField.setText("");
     }
 }

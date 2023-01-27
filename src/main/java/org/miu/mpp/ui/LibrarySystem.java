@@ -29,6 +29,7 @@ public class LibrarySystem extends JFrameAddMultiple {
     private JButton addNewBookBtn;
     private JButton addBookCopy;
     private JPanel panel;
+    private JPanel logoutPanel;
     private ImageIcon backgroundImage;
 
     private static JFrameAddMultiple[] allWindows = {
@@ -67,6 +68,19 @@ public class LibrarySystem extends JFrameAddMultiple {
         };
         panel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
+
+        logoutPanel = new JPanel();
+        JButton logoutBtn = new JButton("LOGOUT");
+        logoutBtn.setSize(new Dimension(150, 30));
+        logoutBtn.setBackground(Color.RED);
+        logoutBtn.setForeground(Color.WHITE);
+        logoutBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logoutBtnClicked();
+            }
+        });
+        logoutPanel.add(logoutBtn);
 
         // path to the background image
         backgroundImage = new ImageIcon(System.getProperty("user.dir") + "/src/main/resources/dashboard-bk.png");
@@ -126,7 +140,33 @@ public class LibrarySystem extends JFrameAddMultiple {
         removeComponentBasedOnRole();
 
         add(panel);
+        add(logoutPanel, BorderLayout.NORTH);
         setVisible(true);
+    }
+
+    private void logoutBtnClicked() {
+        Object[] options = {"Yes, please",
+                "No, StarBoys4lyf"};
+        int n = JOptionPane.showOptionDialog(this,
+                "Are you sure you want to logout?",
+                "Confirm Logout",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                options,
+                options[1]);
+
+        //handle logout
+        if (n == 0) {
+            hideAllWindows();
+
+            SystemController.loggedInUser = null;
+            LoginWindow.loginWindowInstance.clearData();
+            LoginWindow.loginWindowInstance.init();
+            Util.centerFrameOnDesktop(LoginWindow.loginWindowInstance);
+
+            LoginWindow.loginWindowInstance.setVisible(true);
+        }
     }
 
     private void removeComponentBasedOnRole() {
