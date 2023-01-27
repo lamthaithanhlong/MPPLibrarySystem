@@ -1,13 +1,17 @@
 package org.miu.mpp.ui.ruleset;
 
+import org.miu.mpp.ui.admin.addbook.AddBookRuleSet;
+import org.miu.mpp.ui.admin.addbook.AddBookWindow;
+import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyRuleSet;
+import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyWindow;
 import org.miu.mpp.ui.admin.addmember.AddMemberRuleSet;
 import org.miu.mpp.ui.admin.addmember.AddMemberWindow;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookRulesSet;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
-import org.miu.mpp.ui.admin.AddBookRuleSet;
-import org.miu.mpp.ui.admin.AddBookWindow;
 import org.miu.mpp.ui.login.LoginRulesSet;
 import org.miu.mpp.ui.login.LoginWindow;
+import org.miu.mpp.ui.returnbook.ReturnBookWindow;
+import org.miu.mpp.ui.returnbook.ReturnBookWindowRuleSet;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -25,6 +29,8 @@ final public class RuleSetFactory {
         map.put(LoginWindow.class, new LoginRulesSet());
         map.put(AddBookWindow.class, new AddBookRuleSet());
         map.put(CheckoutBookWindow.class, new CheckoutBookRulesSet());
+        map.put(AddBookCopyWindow.class, new AddBookCopyRuleSet());
+        map.put(ReturnBookWindow.class, new ReturnBookWindowRuleSet());
         map.put(AddMemberWindow.class, new AddMemberRuleSet());
     }
 
