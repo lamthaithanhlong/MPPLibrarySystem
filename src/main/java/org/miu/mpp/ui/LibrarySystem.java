@@ -1,6 +1,7 @@
 package org.miu.mpp.ui;
 
 import org.miu.mpp.models.Auth;
+import org.miu.mpp.ui.admin.addmember.AddMemberWindow;
 import org.miu.mpp.ui.admin.addbook.AddBookWindow;
 import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyWindow;
 import org.miu.mpp.ui.admin.addmember.AddMemberWindow;
@@ -8,6 +9,7 @@ import org.miu.mpp.ui.base.JFrameAddMultiple;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
 import org.miu.mpp.ui.checkoutbook.CheckoutHistoryWindow;
 import org.miu.mpp.ui.login.LoginWindow;
+import org.miu.mpp.ui.overduepublication.OverduePublicationWindow;
 import org.miu.mpp.ui.returnbook.ReturnBookWindow;
 import org.miu.mpp.utils.ControllerInterface;
 import org.miu.mpp.utils.SystemController;
@@ -213,7 +215,12 @@ public class LibrarySystem extends JFrameAddMultiple {
     class OverduePublicationsClickListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: Add call to open OverduePublicationsWindow
+
+            LibrarySystem.hideAllWindows();
+
+            OverduePublicationWindow.overduePublicationWindowInstace.initData();
+            Util.centerFrameOnDesktop(OverduePublicationWindow.overduePublicationWindowInstace);
+            OverduePublicationWindow.overduePublicationWindowInstace.setVisible(true);
         }
     }
 

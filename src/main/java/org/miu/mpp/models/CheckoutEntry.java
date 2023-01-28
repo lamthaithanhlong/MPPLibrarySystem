@@ -46,7 +46,7 @@ final public class CheckoutEntry implements Serializable {
 
     public double getDueFee() {
         int days = Period.between(dueDate, LocalDate.now()).getDays();
-        if (days > 0) {
+        if (days > 0 && !isReturned) {
             return days * AppConstants.LATE_FEE;
         }
         return 0.0;
