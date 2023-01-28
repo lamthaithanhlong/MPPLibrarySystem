@@ -4,6 +4,7 @@ import org.miu.mpp.models.Address;
 import org.miu.mpp.models.Author;
 import org.miu.mpp.models.Book;
 import org.miu.mpp.ui.LibrarySystem;
+import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyWindow;
 import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
 import org.miu.mpp.utils.Util;
@@ -174,11 +175,11 @@ public class AddBookWindow extends JFrameAddMultiple {
                 bc.addBook(book);
 
                 new Dialog("Success", "Book added successfully", false);
-//                LibrarySystem.hideAllWindows();
-//                cleanPanel();
-//                    BookManagementWindow.INSTANCE.populateData();
-//                    Util.centerFrameOnDesktop(BookManagementWindow.INSTANCE);
-//                    BookManagementWindow.INSTANCE.setVisible(true);
+                LibrarySystem.hideAllWindows();
+                AddBookCopyWindow.addBookCopyWindowInstance.init();
+                AddBookCopyWindow.addBookCopyWindowInstance.populateData();
+                Util.centerFrameOnDesktop(AddBookCopyWindow.addBookCopyWindowInstance);
+                AddBookCopyWindow.addBookCopyWindowInstance.setVisible(true);
             }
         });
         addBtnsPanel.add(btnadd);
