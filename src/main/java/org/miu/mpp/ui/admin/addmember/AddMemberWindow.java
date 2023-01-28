@@ -87,7 +87,7 @@ public class AddMemberWindow extends JFrameAddMultiple implements UIHelper {
 
         callGoBack(20, 10, 100, 30);
 
-
+//1002 28-12331
         bioLabel = new JLabel("Personal Information: ");
         bioLabel.setFont(new Font(bioLabel.getFont().getName(), Font.ITALIC, titleLabel.getFont().getSize()));
         bioLabel.setBounds(20, 70, 350, 30);
