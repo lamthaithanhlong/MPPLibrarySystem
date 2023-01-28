@@ -166,7 +166,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple implements UIHelper
     }
 
     public void addSearchFilter() {
-
+        allCheckoutRecordsPojo = getCheckoutPojo(checkoutBookController.getAllCheckoutRecords());
         if (!getIsbnFieldText().isBlank()) {
             allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getBookCopy().getBook().getIsbn().equalsIgnoreCase(getIsbnFieldText())).collect(Collectors.toList());
         }
