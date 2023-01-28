@@ -31,7 +31,6 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple implements UIHelper
     private JScrollPane scrollPane;
 
     private DefaultTableModel model;
-    List<CheckoutRecord> allCheckoutRecords;
     List<CheckOutHistoryPojo> allCheckoutRecordsPojo;
 
     private boolean isInitialized = false;
@@ -70,8 +69,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple implements UIHelper
     public void initData() {
         this.checkoutBookController = new CheckoutBookController();
 
-        allCheckoutRecords = checkoutBookController.getAllCheckoutRecords();
-        allCheckoutRecordsPojo = getCheckoutPojo(allCheckoutRecords);
+        allCheckoutRecordsPojo = getCheckoutPojo(checkoutBookController.getAllCheckoutRecords());
 
         JButton goBackBtn = new JButton("<< Go Back");
         goBackBtn.setBounds(20, 10, 100, 30);
@@ -107,7 +105,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple implements UIHelper
             addSearchFilter();
         });
 
-        getTable();
+        addSearchFilter();
 
         addAll(Arrays.asList(memberField, memberIdLabel, isbnLabel, isbnField, jButton, scrollPane, goBackBtn, titleLabel));
 
@@ -167,7 +165,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple implements UIHelper
         }
     }
 
-    private void addSearchFilter() {
+    public void addSearchFilter() {
 
         if (!getIsbnFieldText().isBlank()) {
             allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getBookCopy().getBook().getIsbn().equalsIgnoreCase(getIsbnFieldText())).collect(Collectors.toList());
@@ -176,7 +174,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple implements UIHelper
             allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getMemberId().equalsIgnoreCase(getMemberIdFieldText())).collect(Collectors.toList());
         }
         if (getMemberIdFieldText().isBlank() && getIsbnFieldText().isBlank()) {
-            allCheckoutRecordsPojo = getCheckoutPojo(allCheckoutRecords);
+            allCheckoutRecordsPojo = getCheckoutPojo(checkoutBookController.getAllCheckoutRecords());
         }
 
         getTable();

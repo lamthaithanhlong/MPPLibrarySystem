@@ -87,8 +87,7 @@ public class OverduePublicationWindow extends JFrameAddMultiple implements UIHel
             addSearchFilter();
         });
 
-
-        getTable();
+        addSearchFilter();
 
 
         addAll(Arrays.asList(isbnLabel, isbnField, jButton, scrollPane, goBackBtn, titleLabel));
@@ -107,7 +106,7 @@ public class OverduePublicationWindow extends JFrameAddMultiple implements UIHel
                 .add(new CheckOutHistoryPojo(y.getBookCopy(), y.getCheckoutDate(), y.getReturnDate(), y.getDueDate(), v.getMemberId(), y.getDueFee()))));
 
 
-        return checkOutHistoryPojos.stream().filter(v -> v.getDueDate().isBefore(LocalDate.now())).collect(Collectors.toList());
+        return checkOutHistoryPojos.stream().filter(x->Objects.isNull(x.getReturnDate())).filter(v -> v.getDueDate().isBefore(LocalDate.now())).collect(Collectors.toList());
     }
 
     private void getTable() {
@@ -146,7 +145,7 @@ public class OverduePublicationWindow extends JFrameAddMultiple implements UIHel
         add(scrollPane);
     }
 
-    private void addSearchFilter() {
+    public void addSearchFilter() {
 
         if (!getIsbnFieldText().isBlank()) {
             allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getBookCopy().getBook().getIsbn().equalsIgnoreCase(getIsbnFieldText())).collect(Collectors.toList());

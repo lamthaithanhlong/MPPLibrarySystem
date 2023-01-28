@@ -220,6 +220,7 @@ public class LibrarySystem extends JFrameAddMultiple {
 
             if (!OverduePublicationWindow.overduePublicationWindowInstace.isInitialized())
                 OverduePublicationWindow.overduePublicationWindowInstace.initData();
+            OverduePublicationWindow.overduePublicationWindowInstace.addSearchFilter();
             Util.centerFrameOnDesktop(OverduePublicationWindow.overduePublicationWindowInstace);
             OverduePublicationWindow.overduePublicationWindowInstace.setVisible(true);
         }
@@ -271,7 +272,7 @@ public class LibrarySystem extends JFrameAddMultiple {
             if (!CheckoutHistoryWindow.checkoutHistoryWindowInstance.isInitialized())
                 CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
 
-            CheckoutHistoryWindow.checkoutHistoryWindowInstance.populateTable();
+            CheckoutHistoryWindow.checkoutHistoryWindowInstance.addSearchFilter();
             Util.centerFrameOnDesktop(CheckoutHistoryWindow.checkoutHistoryWindowInstance);
             CheckoutHistoryWindow.checkoutHistoryWindowInstance.setVisible(true);
         }
