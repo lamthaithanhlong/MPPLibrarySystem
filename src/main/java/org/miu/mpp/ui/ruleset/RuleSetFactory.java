@@ -106,16 +106,23 @@ final public class RuleSetFactory {
         return false;
     }
 
-    public static boolean isValidIsbn(String isbn) {
-        if (isbn.isEmpty())
-            return false;
-        for (int i = 0; i < isbn.length(); i++) {
+//    public static boolean isValidIsbn(String isbn) {
+//        if (isbn.isEmpty())
+//            return false;
+//        for (int i = 0; i < isbn.length(); i++) {
+//
+//            if (!Character.isDigit(isbn.charAt(i)) ||
+//                    (!Character.isDigit(isbn.charAt(i)) && !String.valueOf(isbn.charAt(i)).equals("-"))) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
-            if (!Character.isDigit(isbn.charAt(i)) ||
-                    (!Character.isDigit(isbn.charAt(i)) && !String.valueOf(isbn.charAt(i)).equals("-"))) {
-                return false;
-            }
-        }
-        return true;
+    public static boolean isValidIsbn(String inputString) {
+        if (inputString.isEmpty())
+            return false;
+        String STRING_REGEX = "^\\d+(\\-\\d+)*$";
+        return inputString.matches(STRING_REGEX);
     }
 }
