@@ -38,10 +38,12 @@ public class LibrarySystem extends JFrameAddMultiple {
             LibrarySystem.librarySystemInstance,
             LoginWindow.loginWindowInstance,
             AddBookWindow.addBookWindowInstance,
+            AddMemberWindow.addMemberWindowInstance,
             CheckoutBookWindow.checkoutBookWindowInstance,
             CheckoutHistoryWindow.checkoutHistoryWindowInstance,
             AddBookCopyWindow.addBookCopyWindowInstance,
-            ReturnBookWindow.returnBookWindowInstance
+            ReturnBookWindow.returnBookWindowInstance,
+            OverduePublicationWindow.overduePublicationWindowInstace
     };
 
     private LibrarySystem() {
@@ -203,9 +205,9 @@ public class LibrarySystem extends JFrameAddMultiple {
         public void actionPerformed(ActionEvent e) {
             LibrarySystem.hideAllWindows();
 
-            CheckoutBookWindow.checkoutBookWindowInstance.initData();
+            if (!CheckoutBookWindow.checkoutBookWindowInstance.isInitialized())
+                CheckoutBookWindow.checkoutBookWindowInstance.initData();
             Util.centerFrameOnDesktop(CheckoutBookWindow.checkoutBookWindowInstance);
-
             CheckoutBookWindow.checkoutBookWindowInstance.setVisible(true);
         }
     }
@@ -216,7 +218,8 @@ public class LibrarySystem extends JFrameAddMultiple {
 
             LibrarySystem.hideAllWindows();
 
-            OverduePublicationWindow.overduePublicationWindowInstace.initData();
+            if (!OverduePublicationWindow.overduePublicationWindowInstace.isInitialized())
+                OverduePublicationWindow.overduePublicationWindowInstace.initData();
             Util.centerFrameOnDesktop(OverduePublicationWindow.overduePublicationWindowInstace);
             OverduePublicationWindow.overduePublicationWindowInstace.setVisible(true);
         }
@@ -227,7 +230,8 @@ public class LibrarySystem extends JFrameAddMultiple {
         public void actionPerformed(ActionEvent e) {
             LibrarySystem.hideAllWindows();
 
-            AddMemberWindow.addMemberWindowInstance.initData();
+            if (!AddMemberWindow.addMemberWindowInstance.isInitialized())
+                AddMemberWindow.addMemberWindowInstance.initData();
             Util.centerFrameOnDesktop(AddMemberWindow.addMemberWindowInstance);
             AddMemberWindow.addMemberWindowInstance.setVisible(true);
         }
@@ -250,7 +254,9 @@ public class LibrarySystem extends JFrameAddMultiple {
         public void actionPerformed(ActionEvent e) {
             LibrarySystem.hideAllWindows();
 
-            AddBookCopyWindow.addBookCopyWindowInstance.init();
+            if (!AddBookCopyWindow.addBookCopyWindowInstance.isInitialized())
+                AddBookCopyWindow.addBookCopyWindowInstance.init();
+            AddBookCopyWindow.addBookCopyWindowInstance.populateData();
             Util.centerFrameOnDesktop(AddBookCopyWindow.addBookCopyWindowInstance);
 
             AddBookCopyWindow.addBookCopyWindowInstance.setVisible(true);
@@ -262,7 +268,10 @@ public class LibrarySystem extends JFrameAddMultiple {
         public void actionPerformed(ActionEvent e) {
             LibrarySystem.hideAllWindows();
 
-            CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
+            if (!CheckoutHistoryWindow.checkoutHistoryWindowInstance.isInitialized())
+                CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
+
+            CheckoutHistoryWindow.checkoutHistoryWindowInstance.populateTable();
             Util.centerFrameOnDesktop(CheckoutHistoryWindow.checkoutHistoryWindowInstance);
             CheckoutHistoryWindow.checkoutHistoryWindowInstance.setVisible(true);
         }

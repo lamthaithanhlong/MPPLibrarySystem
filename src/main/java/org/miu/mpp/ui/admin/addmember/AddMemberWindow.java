@@ -2,24 +2,25 @@ package org.miu.mpp.ui.admin.addmember;
 
 import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
+import org.miu.mpp.ui.base.UIHelper;
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSetFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author bazz
  * Date Jan 26 2023
  * Time 15:05
  */
-public class AddMemberWindow extends JFrameAddMultiple {
+public class AddMemberWindow extends JFrameAddMultiple implements UIHelper {
 
     public static AddMemberWindow addMemberWindowInstance = new AddMemberWindow();
 
+    private boolean isInitialized = false;
 
     private JLabel firstNameLabel, bioLabel, roleSepLabel, lastNameLabel, phoneLabel, addressLabel, stateLabel, cityLabel, streetLabel, zipLabel, rolesLabel, passwordLabel;
     private JTextField firstNameField, lastNameField, phoneField, stateField, cityField, streetField, zipField, passwordField;
@@ -206,8 +207,9 @@ public class AddMemberWindow extends JFrameAddMultiple {
                     MemberDetailsPojo memberDetailsPojo = new MemberDetailsPojo(addMemberWindowInstance);
                     System.out.println("memberDetailsPojo.getMemberRole() " + memberDetailsPojo.getMemberRole());
                     String memberId = AddMemberController.createNewMemberFromUi(memberDetailsPojo);
-                    new Dialog("Success", "New Member/User added Successfully with ID:  "+memberId, false);
+                    new Dialog("Success", "New Member/User added Successfully with ID:  " + memberId, false);
 
+                    clearData();
                 } catch (AddMemberException addMemberException) {
                     new Dialog("Error", addMemberException.getMessage(), true);
                 }
@@ -220,18 +222,41 @@ public class AddMemberWindow extends JFrameAddMultiple {
 
         setSize(600, 600);
         setLayout(null);
-        setVisible(true);
 
         addAll(Arrays.asList(titleLabel, bioSeperator, addrSeperator, bioLabel, firstNameLabel, firstNameField, lastNameLabel, lastNameField,
                 phoneLabel, phoneField, addressLabel, stateLabel, stateField, cityLabel, cityField, streetLabel, streetField,
                 zipLabel, zipField, rolesLabel, role, roleSepLabel, roleSeperator, addMemberBtn
         ));
+    }
 
+    private void clearData() {
+        clearAllTfs(List.of(firstNameField, lastNameField, phoneField, stateField, cityField, streetField, zipField));
+    }
+
+    private void clearAllTfs(List<JTextField> allTfs) {
+        for (JTextField tf : allTfs) {
+            tf.setText("");
+        }
     }
 
 
     public static void main(String[] args) {
         addMemberWindowInstance.initData();
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+
+    @Override
+    public void isInitialized(boolean val) {
+        isInitialized = val;
     }
 
 

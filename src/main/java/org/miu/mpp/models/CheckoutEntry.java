@@ -40,6 +40,10 @@ final public class CheckoutEntry implements Serializable {
         isReturned = true;
     }
 
+    public void setReturnDate() {
+        returnDate = LocalDate.now();
+    }
+
     CheckoutEntry(BookCopy bookCopy, LocalDate checkoutDate) {
         this.bookCopy = bookCopy;
         this.checkoutDate = checkoutDate;
