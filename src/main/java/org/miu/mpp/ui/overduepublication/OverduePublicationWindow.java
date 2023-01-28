@@ -100,7 +100,7 @@ public class OverduePublicationWindow extends JFrameAddMultiple {
         List<CheckOutHistoryPojo> checkOutHistoryPojos = new ArrayList<>();
 
         allCheckoutRecords.forEach(v -> v.getEntries().forEach(y -> checkOutHistoryPojos
-                .add(new CheckOutHistoryPojo(y.getBookCopy(), y.getCheckoutDate(), y.getDueDate(), v.getMemberId(), y.getDueFee()))));
+                .add(new CheckOutHistoryPojo(y.getBookCopy(), y.getCheckoutDate(),y.getReturnDate(), y.getDueDate(), v.getMemberId(), y.getDueFee()))));
 
 
         return checkOutHistoryPojos.stream().filter(v -> v.getDueDate().isBefore(LocalDate.now())).collect(Collectors.toList());
