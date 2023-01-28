@@ -105,4 +105,17 @@ final public class RuleSetFactory {
 
         return false;
     }
+
+    public static boolean isValidIsbn(String isbn) {
+        if (isbn.isEmpty())
+            return false;
+        for (int i = 0; i < isbn.length(); i++) {
+
+            if (!Character.isDigit(isbn.charAt(i)) ||
+                    (!Character.isDigit(isbn.charAt(i)) && !String.valueOf(isbn.charAt(i)).equals("-"))) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

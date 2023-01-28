@@ -20,7 +20,7 @@ public class ReturnBookWindowRuleSet implements RuleSet {
         if (RuleSetFactory.isAnyEmpty(List.of(isbnSearchText, memberIdSearchText)))
             throw new RuleException("Both Member Id and Isbn must be entered");
 
-//        if (!RuleSetFactory.isNumeric(searchText))
-//            throw new RuleException("ISBN can only contain numbers");
+        if (!RuleSetFactory.isValidIsbn(isbnSearchText))
+            throw new RuleException("ISBN can only contain numbers and \"-\"");
     }
 }
