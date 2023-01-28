@@ -3,7 +3,6 @@ package org.miu.mpp.ui.checkoutbook;
 import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
-import org.miu.mpp.ui.returnbook.ReturnBookWindow;
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSetFactory;
 import org.miu.mpp.utils.Util;
@@ -97,6 +96,7 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
                 new Dialog("Success", "Book checked out to member: " + memberField.getText() + " Successfully", false);
 
                 LibrarySystem.hideAllWindows();
+                CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
                 CheckoutHistoryWindow.loadCheckoutHistoryWindowWithFilter("", memberField.getText().trim());
                 Util.centerFrameOnDesktop(CheckoutHistoryWindow.checkoutHistoryWindowInstance);
                 CheckoutHistoryWindow.checkoutHistoryWindowInstance.setVisible(true);

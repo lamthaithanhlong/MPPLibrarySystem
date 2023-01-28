@@ -31,18 +31,20 @@ public class ReturnBookWindowController {
         return records;
     }
 
-    public CheckOutHistoryDto getCheckoutRecordBasedOnIsbn(String isbn) {
-        List<CheckoutRecord> allCheckOutHistory = getAllCheckoutRecords();
+    public CheckOutHistoryDto getCheckoutRecordBasedOnIsbn(String isbn, String memberId) throws ReturnBookException {
+        LibraryMember member = da.readMemberMap().get(memberId);
+
+        if (member == null) throw new ReturnBookException("Member not found with id " + memberId);
+        CheckoutRecord checkoutRecord = member.getCheckoutRecord();
+
         CheckoutEntry matchingCheckoutEntry = null;
         CheckoutRecord matchingCheckoutRecord = null;
 
-        for (CheckoutRecord checkoutRecord : allCheckOutHistory) {
-            for (CheckoutEntry checkoutEntry : checkoutRecord.getEntries()) {
-                if (checkoutEntry.getBookCopy().getBook().getIsbn().equals(isbn) && !checkoutEntry.isReturned()) {
-                    matchingCheckoutEntry = checkoutEntry;
-                    matchingCheckoutRecord = checkoutRecord;
-                    break;
-                }
+        for (CheckoutEntry checkoutEntry : checkoutRecord.getEntries()) {
+            if (checkoutEntry.getBookCopy().getBook().getIsbn().equals(isbn) && !checkoutEntry.isReturned()) {
+                matchingCheckoutEntry = checkoutEntry;
+                matchingCheckoutRecord = checkoutRecord;
+                break;
             }
         }
 

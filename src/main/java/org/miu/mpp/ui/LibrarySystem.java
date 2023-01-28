@@ -1,7 +1,6 @@
 package org.miu.mpp.ui;
 
 import org.miu.mpp.models.Auth;
-import org.miu.mpp.ui.admin.addmember.AddMemberWindow;
 import org.miu.mpp.ui.admin.addbook.AddBookWindow;
 import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyWindow;
 import org.miu.mpp.ui.admin.addmember.AddMemberWindow;
@@ -165,7 +164,6 @@ public class LibrarySystem extends JFrameAddMultiple {
 
             SystemController.loggedInUser = null;
             LoginWindow.loginWindowInstance.clearData();
-            LoginWindow.loginWindowInstance.init();
             Util.centerFrameOnDesktop(LoginWindow.loginWindowInstance);
 
             LoginWindow.loginWindowInstance.setVisible(true);

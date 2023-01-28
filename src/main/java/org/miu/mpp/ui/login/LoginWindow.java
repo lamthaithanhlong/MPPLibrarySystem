@@ -59,7 +59,6 @@ public class LoginWindow extends JFrameAddMultiple {
         addAll(List.of(textField, idLabel, idField, passwordLabel, passwordField, loginButton));
 
         setLayout(null);
-        setVisible(true);
         setSize(400, 300);
     }
 
