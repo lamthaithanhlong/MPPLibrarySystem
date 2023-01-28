@@ -1,15 +1,12 @@
 package org.miu.mpp.ui.checkoutbook;
 
-import org.miu.mpp.models.BookCopy;
 import org.miu.mpp.models.CheckoutRecord;
 import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
-import org.miu.mpp.ui.returnbook.ReturnBookWindow;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,6 +55,8 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
 
     public static void loadCheckoutHistoryWindowWithFilter(String isbn, String memberId) {
         CheckoutHistoryWindow checkoutHistoryWindow = new CheckoutHistoryWindow();
+        checkoutHistoryWindow.initData();
+        checkoutHistoryWindow.setVisible(true);
         checkoutHistoryWindow.setIsbnFieldText(isbn);
         checkoutHistoryWindow.setMemberIdField(memberId);
         checkoutHistoryWindow.addSearchFilter();
@@ -122,7 +121,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
         List<CheckOutHistoryPojo> checkOutHistoryPojos = new ArrayList<>();
 
         allCheckoutRecords.forEach(v -> v.getEntries().forEach(y -> checkOutHistoryPojos
-                .add(new CheckOutHistoryPojo(y.getBookCopy(), y.getCheckoutDate(), y.getDueDate(), v.getMemberId(), y.getDueFee()))));
+                .add(new CheckOutHistoryPojo(y.getBookCopy(), y.getCheckoutDate(),y.getReturnDate(), y.getDueDate(), v.getMemberId(), y.getDueFee()))));
 
         return checkOutHistoryPojos;
     }
@@ -140,7 +139,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
         table = new JTable();
 
         model = new DefaultTableModel();
-        String[] column = {"Member Id", "Book Title", "ISBN", "Copy No.", "Checkout Date", "Due Date", "Late Fee"};
+        String[] column = {"Member Id", "Book Title", "ISBN", "Copy No.", "Checkout Date",  "Date Returned", "Due Date", "Late Fee"};
         model.setColumnIdentifiers(column);
         table.setModel(model);
         table.setFocusable(false);
@@ -155,6 +154,7 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple {
                     cr.getBookCopy().getBook().getIsbn(),
                     String.valueOf(cr.getBookCopy().getCopyNum()),
                     cr.getCheckoutDate().toString(),
+                    cr.getReturnDate()!= null ? cr.getReturnDate().toString() : "Not Returned",
                     cr.getDueDate().toString(),
                     "$" + cr.getAmountDue()
             });

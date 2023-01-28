@@ -99,7 +99,6 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
                 CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
                 CheckoutHistoryWindow.loadCheckoutHistoryWindowWithFilter("", memberField.getText().trim());
                 Util.centerFrameOnDesktop(CheckoutHistoryWindow.checkoutHistoryWindowInstance);
-                CheckoutHistoryWindow.checkoutHistoryWindowInstance.setVisible(true);
 
             } catch (CheckoutBookException exception) {
                 new Dialog("Error", exception.getMessage(), true);
