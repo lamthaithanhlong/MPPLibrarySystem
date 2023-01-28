@@ -1,4 +1,4 @@
-package org.miu.mpp.ui.admin;
+package org.miu.mpp.ui.admin.addbook;
 
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSet;
@@ -12,6 +12,7 @@ public class AddBookRuleSet implements RuleSet {
 
     @Override
     public void applyRules(Component ob) throws RuleException {
+
         AddBookWindow addBookWindow = (AddBookWindow) ob;
 
         isbn = addBookWindow.getIsbnTf();
