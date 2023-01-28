@@ -1,7 +1,6 @@
 package org.miu.mpp.ui;
 
 import org.miu.mpp.models.Auth;
-import org.miu.mpp.ui.admin.addmember.AddMemberWindow;
 import org.miu.mpp.ui.admin.addbook.AddBookWindow;
 import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyWindow;
 import org.miu.mpp.ui.admin.addmember.AddMemberWindow;
@@ -39,10 +38,12 @@ public class LibrarySystem extends JFrameAddMultiple {
             LibrarySystem.librarySystemInstance,
             LoginWindow.loginWindowInstance,
             AddBookWindow.addBookWindowInstance,
+            AddMemberWindow.addMemberWindowInstance,
             CheckoutBookWindow.checkoutBookWindowInstance,
             CheckoutHistoryWindow.checkoutHistoryWindowInstance,
             AddBookCopyWindow.addBookCopyWindowInstance,
-            ReturnBookWindow.returnBookWindowInstance
+            ReturnBookWindow.returnBookWindowInstance,
+            OverduePublicationWindow.overduePublicationWindowInstace
     };
 
     private LibrarySystem() {
@@ -165,7 +166,6 @@ public class LibrarySystem extends JFrameAddMultiple {
 
             SystemController.loggedInUser = null;
             LoginWindow.loginWindowInstance.clearData();
-            LoginWindow.loginWindowInstance.init();
             Util.centerFrameOnDesktop(LoginWindow.loginWindowInstance);
 
             LoginWindow.loginWindowInstance.setVisible(true);
@@ -205,9 +205,9 @@ public class LibrarySystem extends JFrameAddMultiple {
         public void actionPerformed(ActionEvent e) {
             LibrarySystem.hideAllWindows();
 
-            CheckoutBookWindow.checkoutBookWindowInstance.initData();
+            if (!CheckoutBookWindow.checkoutBookWindowInstance.isInitialized())
+                CheckoutBookWindow.checkoutBookWindowInstance.initData();
             Util.centerFrameOnDesktop(CheckoutBookWindow.checkoutBookWindowInstance);
-
             CheckoutBookWindow.checkoutBookWindowInstance.setVisible(true);
         }
     }
@@ -218,7 +218,9 @@ public class LibrarySystem extends JFrameAddMultiple {
 
             LibrarySystem.hideAllWindows();
 
-            OverduePublicationWindow.overduePublicationWindowInstace.initData();
+            if (!OverduePublicationWindow.overduePublicationWindowInstace.isInitialized())
+                OverduePublicationWindow.overduePublicationWindowInstace.initData();
+            OverduePublicationWindow.overduePublicationWindowInstace.addSearchFilter();
             Util.centerFrameOnDesktop(OverduePublicationWindow.overduePublicationWindowInstace);
             OverduePublicationWindow.overduePublicationWindowInstace.setVisible(true);
         }
@@ -229,7 +231,8 @@ public class LibrarySystem extends JFrameAddMultiple {
         public void actionPerformed(ActionEvent e) {
             LibrarySystem.hideAllWindows();
 
-            AddMemberWindow.addMemberWindowInstance.initData();
+            if (!AddMemberWindow.addMemberWindowInstance.isInitialized())
+                AddMemberWindow.addMemberWindowInstance.initData();
             Util.centerFrameOnDesktop(AddMemberWindow.addMemberWindowInstance);
             AddMemberWindow.addMemberWindowInstance.setVisible(true);
         }
@@ -252,7 +255,9 @@ public class LibrarySystem extends JFrameAddMultiple {
         public void actionPerformed(ActionEvent e) {
             LibrarySystem.hideAllWindows();
 
-            AddBookCopyWindow.addBookCopyWindowInstance.init();
+            if (!AddBookCopyWindow.addBookCopyWindowInstance.isInitialized())
+                AddBookCopyWindow.addBookCopyWindowInstance.init();
+            AddBookCopyWindow.addBookCopyWindowInstance.populateData();
             Util.centerFrameOnDesktop(AddBookCopyWindow.addBookCopyWindowInstance);
 
             AddBookCopyWindow.addBookCopyWindowInstance.setVisible(true);
@@ -264,7 +269,10 @@ public class LibrarySystem extends JFrameAddMultiple {
         public void actionPerformed(ActionEvent e) {
             LibrarySystem.hideAllWindows();
 
-            CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
+            if (!CheckoutHistoryWindow.checkoutHistoryWindowInstance.isInitialized())
+                CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
+
+            CheckoutHistoryWindow.checkoutHistoryWindowInstance.addSearchFilter();
             Util.centerFrameOnDesktop(CheckoutHistoryWindow.checkoutHistoryWindowInstance);
             CheckoutHistoryWindow.checkoutHistoryWindowInstance.setVisible(true);
         }

@@ -24,6 +24,10 @@ final public class CheckoutEntry implements Serializable {
         return checkoutDate;
     }
 
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
     public LocalDate getDueDate() {
         return dueDate;
     }
@@ -34,6 +38,10 @@ final public class CheckoutEntry implements Serializable {
 
     public void setIsReturned() {
         isReturned = true;
+    }
+
+    public void setReturnDate() {
+        returnDate = LocalDate.now();
     }
 
     CheckoutEntry(BookCopy bookCopy, LocalDate checkoutDate) {

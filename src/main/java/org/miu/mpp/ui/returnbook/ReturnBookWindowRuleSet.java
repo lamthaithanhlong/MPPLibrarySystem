@@ -8,15 +8,17 @@ import java.awt.*;
 import java.util.List;
 
 public class ReturnBookWindowRuleSet implements RuleSet {
-    private String searchText;
+    private String isbnSearchText;
+    private String memberIdSearchText;
 
     @Override
     public void applyRules(Component ob) throws RuleException {
         ReturnBookWindow returnBookWindow = (ReturnBookWindow) ob;
-        searchText = returnBookWindow.getUserSearchText();
+        isbnSearchText = returnBookWindow.getIsbnTf();
+        memberIdSearchText = returnBookWindow.getMemberTf();
 
-        if (RuleSetFactory.isAnyEmpty(List.of(searchText)))
-            throw new RuleException("Please enter an isbn number before searching");
+        if (RuleSetFactory.isAnyEmpty(List.of(isbnSearchText, memberIdSearchText)))
+            throw new RuleException("Both Member Id and Isbn must be entered");
 
 //        if (!RuleSetFactory.isNumeric(searchText))
 //            throw new RuleException("ISBN can only contain numbers");

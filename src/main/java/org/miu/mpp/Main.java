@@ -1,6 +1,7 @@
 package org.miu.mpp;
 
 import org.miu.mpp.ui.login.LoginWindow;
+import org.miu.mpp.utils.Util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +21,8 @@ public class Main {
                 } catch (Exception e) {
                 }
                 LoginWindow.loginWindowInstance.init();
+                Util.centerFrameOnDesktop(LoginWindow.loginWindowInstance);
+                LoginWindow.loginWindowInstance.setVisible(true);
             }
         });
     }

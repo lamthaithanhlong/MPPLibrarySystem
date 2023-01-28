@@ -5,6 +5,7 @@ import org.miu.mpp.models.Book;
 import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.SearchPanelTopPanel;
+import org.miu.mpp.ui.base.UIHelper;
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSetFactory;
 
@@ -17,8 +18,10 @@ import java.awt.event.MouseEvent;
 import java.util.Comparator;
 import java.util.List;
 
-public class AddBookCopyWindow extends SearchPanelTopPanel {
+public class AddBookCopyWindow extends SearchPanelTopPanel implements UIHelper {
     public static AddBookCopyWindow addBookCopyWindowInstance = new AddBookCopyWindow();
+
+    private boolean isInitialized = false;
 
     private AddBookCopyController addBookCopyController = new AddBookCopyController();
 
@@ -52,6 +55,18 @@ public class AddBookCopyWindow extends SearchPanelTopPanel {
         setLayout(null);
         setSize(new Dimension(600, 500));
         setVisible(true);
+
+        isInitialized = true;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+
+    @Override
+    public void isInitialized(boolean val) {
+        isInitialized = val;
     }
 
     private void setupVisuals() {
@@ -125,6 +140,7 @@ public class AddBookCopyWindow extends SearchPanelTopPanel {
                 //book found matching isbn, update list
                 books.clear();
                 books.add(matchingBook);
+
                 for (Book book : books) {
                     String author = "";
                     for (Author a : book.getAuthors()) {

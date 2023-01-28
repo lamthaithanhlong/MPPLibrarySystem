@@ -9,19 +9,20 @@ public class CheckOutHistoryPojo {
         private LocalDate checkoutDate;
         private LocalDate dueDate;
         private String memberId;
-        private String memberName;
+        private LocalDate returnDate;
         private double amountDue;
 
-        public CheckOutHistoryPojo(BookCopy bookCopy, LocalDate checkoutDate, LocalDate dueDate, String memberId, double dueFee) {
+        public CheckOutHistoryPojo(BookCopy bookCopy, LocalDate checkoutDate, LocalDate returnDate, LocalDate dueDate, String memberId, double dueFee) {
             this.bookCopy = bookCopy;
             this.checkoutDate = checkoutDate;
             this.dueDate = dueDate;
             this.memberId = memberId;
             this.amountDue = dueFee;
+            this.returnDate = returnDate;
         }
 
-    public String getMemberName() {
-        return memberName;
+    public LocalDate getReturnDate() {
+        return returnDate;
     }
 
     public BookCopy getBookCopy() {

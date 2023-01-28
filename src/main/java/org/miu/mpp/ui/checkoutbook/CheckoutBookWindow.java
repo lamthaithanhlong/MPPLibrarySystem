@@ -3,7 +3,7 @@ package org.miu.mpp.ui.checkoutbook;
 import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
-import org.miu.mpp.ui.returnbook.ReturnBookWindow;
+import org.miu.mpp.ui.base.UIHelper;
 import org.miu.mpp.ui.ruleset.RuleException;
 import org.miu.mpp.ui.ruleset.RuleSetFactory;
 import org.miu.mpp.utils.Util;
@@ -18,9 +18,11 @@ import java.util.Arrays;
  * Date Jan 25 2023
  * Time 14:45
  */
-public class CheckoutBookWindow extends JFrameAddMultiple {
+public class CheckoutBookWindow extends JFrameAddMultiple implements UIHelper {
 
     public static CheckoutBookWindow checkoutBookWindowInstance = new CheckoutBookWindow();
+
+    private boolean isInitialized = false;
 
     private CheckoutBookController checkoutBookController;
 
@@ -86,6 +88,8 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
         setSize(600, 500);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        isInitialized = true;
     }
 
 
@@ -97,9 +101,11 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
                 new Dialog("Success", "Book checked out to member: " + memberField.getText() + " Successfully", false);
 
                 LibrarySystem.hideAllWindows();
-                CheckoutHistoryWindow.loadCheckoutHistoryWindowWithFilter("", memberField.getText().trim());
+
+                if (!CheckoutHistoryWindow.checkoutHistoryWindowInstance.isInitialized())
+                    CheckoutHistoryWindow.checkoutHistoryWindowInstance.initData();
+                CheckoutHistoryWindow.checkoutHistoryWindowInstance.loadCheckoutHistoryWindowWithFilter("", memberField.getText().trim());
                 Util.centerFrameOnDesktop(CheckoutHistoryWindow.checkoutHistoryWindowInstance);
-                CheckoutHistoryWindow.checkoutHistoryWindowInstance.setVisible(true);
 
             } catch (CheckoutBookException exception) {
                 new Dialog("Error", exception.getMessage(), true);
@@ -117,4 +123,18 @@ public class CheckoutBookWindow extends JFrameAddMultiple {
         CheckoutBookWindow.checkoutBookWindowInstance.setVisible(true);
     }
 
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+
+    @Override
+    public void isInitialized(boolean val) {
+        isInitialized = val;
+    }
 }

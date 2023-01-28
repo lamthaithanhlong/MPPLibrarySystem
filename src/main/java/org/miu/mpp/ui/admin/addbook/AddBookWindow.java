@@ -7,6 +7,7 @@ import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyWindow;
 import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
+import org.miu.mpp.ui.base.UIHelper;
 import org.miu.mpp.utils.Util;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class AddBookWindow extends JFrameAddMultiple {
+public class AddBookWindow extends JFrameAddMultiple implements UIHelper {
     private static final long serialVersionUID = 1L;
     public static final AddBookWindow addBookWindowInstance = new AddBookWindow();
     AddBookController bc = new AddBookController();
@@ -176,7 +177,9 @@ public class AddBookWindow extends JFrameAddMultiple {
 
                 new Dialog("Success", "Book added successfully", false);
                 LibrarySystem.hideAllWindows();
-                AddBookCopyWindow.addBookCopyWindowInstance.init();
+
+                if (!AddBookCopyWindow.addBookCopyWindowInstance.isInitialized())
+                    AddBookCopyWindow.addBookCopyWindowInstance.init();
                 AddBookCopyWindow.addBookCopyWindowInstance.populateData();
                 Util.centerFrameOnDesktop(AddBookCopyWindow.addBookCopyWindowInstance);
                 AddBookCopyWindow.addBookCopyWindowInstance.setVisible(true);
@@ -232,6 +235,16 @@ public class AddBookWindow extends JFrameAddMultiple {
         pack();
 
         isInitialized = true;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+
+    @Override
+    public void isInitialized(boolean val) {
+        isInitialized = val;
     }
 
     private void addAuthor() {

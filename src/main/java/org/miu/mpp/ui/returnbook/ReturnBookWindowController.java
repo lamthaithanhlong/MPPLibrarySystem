@@ -24,34 +24,31 @@ public class ReturnBookWindowController {
         });
 
         for (LibraryMember member : members) {
-            if (member.getCheckoutRecord() != null)
-                records.add(member.getCheckoutRecord());
+            if (member.getCheckoutRecord() != null) records.add(member.getCheckoutRecord());
         }
 
         return records;
     }
 
-    public CheckOutHistoryDto getCheckoutRecordBasedOnIsbn(String isbn) {
-        List<CheckoutRecord> allCheckOutHistory = getAllCheckoutRecords();
+    public CheckOutHistoryDto getCheckoutRecordBasedOnIsbn(String isbn, String memberId) throws ReturnBookException {
+        LibraryMember member = da.readMemberMap().get(memberId);
+
+        if (member == null) throw new ReturnBookException("Member not found with id " + memberId);
+        CheckoutRecord checkoutRecord = member.getCheckoutRecord();
+
         CheckoutEntry matchingCheckoutEntry = null;
         CheckoutRecord matchingCheckoutRecord = null;
 
-        for (CheckoutRecord checkoutRecord : allCheckOutHistory) {
-            for (CheckoutEntry checkoutEntry : checkoutRecord.getEntries()) {
-                if (checkoutEntry.getBookCopy().getBook().getIsbn().equals(isbn) && !checkoutEntry.isReturned()) {
-                    matchingCheckoutEntry = checkoutEntry;
-                    matchingCheckoutRecord = checkoutRecord;
-                    break;
-                }
+        for (CheckoutEntry checkoutEntry : checkoutRecord.getEntries()) {
+            if (checkoutEntry.getBookCopy().getBook().getIsbn().equals(isbn) && !checkoutEntry.isReturned()) {
+                matchingCheckoutEntry = checkoutEntry;
+                matchingCheckoutRecord = checkoutRecord;
+                break;
             }
         }
 
         if (matchingCheckoutEntry != null) {
-            return new CheckOutHistoryDto(matchingCheckoutEntry.getBookCopy(),
-                    matchingCheckoutEntry.getCheckoutDate(),
-                    matchingCheckoutEntry.getDueDate(),
-                    matchingCheckoutRecord.getMemberId(),
-                    matchingCheckoutEntry.getDueFee());
+            return new CheckOutHistoryDto(matchingCheckoutEntry.getBookCopy(), matchingCheckoutEntry.getCheckoutDate(), matchingCheckoutEntry.getDueDate(), matchingCheckoutRecord.getMemberId(), matchingCheckoutEntry.getDueFee());
         } else return null;
     }
 
@@ -63,11 +60,11 @@ public class ReturnBookWindowController {
 
         if (checkoutRecord != null) {
             for (CheckoutEntry entry : checkoutRecord.getEntries()) {
-                if (entry.getBookCopy().getBook().getTitle().equals(checkOutHistoryDto.getBookCopy().getBook().getTitle())
-                        && entry.getBookCopy().getCopyNum() == checkOutHistoryDto.getBookCopy().getCopyNum()) {
+                if (entry.getBookCopy().getBook().getTitle().equals(checkOutHistoryDto.getBookCopy().getBook().getTitle()) && entry.getBookCopy().getCopyNum() == checkOutHistoryDto.getBookCopy().getCopyNum()) {
                     bookCopy = entry.getBookCopy();
 
                     entry.setIsReturned();
+                    entry.setReturnDate();
                     da.saveNewMember(member);
                     updateBookCopyAvailability(bookCopy, bookCopy.getBook().getIsbn());
                     break;
@@ -75,6 +72,7 @@ public class ReturnBookWindowController {
             }
         }
     }
+    //1001 99-22223
 
     private void updateBookCopyAvailability(BookCopy bc, String isbn) {
         HashMap<String, Book> bookMap = da.readBooksMap();

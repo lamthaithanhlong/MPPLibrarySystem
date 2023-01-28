@@ -3,9 +3,9 @@ package org.miu.mpp.ui.overduepublication;
 import org.miu.mpp.models.CheckoutRecord;
 import org.miu.mpp.ui.LibrarySystem;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
+import org.miu.mpp.ui.base.UIHelper;
 import org.miu.mpp.ui.checkoutbook.CheckOutHistoryPojo;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookController;
-import org.miu.mpp.ui.checkoutbook.CheckoutHistoryWindow;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * Date Jan 27 2023
  * Time 13:43
  */
-public class OverduePublicationWindow extends JFrameAddMultiple {
+public class OverduePublicationWindow extends JFrameAddMultiple implements UIHelper {
     public static OverduePublicationWindow overduePublicationWindowInstace = new OverduePublicationWindow();
 
 
@@ -31,6 +31,8 @@ public class OverduePublicationWindow extends JFrameAddMultiple {
     private JLabel isbnLabel;
     private JTextField isbnField;
     private JTable table;
+
+    private boolean isInitialized = false;
 
     private JScrollPane scrollPane;
 
@@ -85,8 +87,7 @@ public class OverduePublicationWindow extends JFrameAddMultiple {
             addSearchFilter();
         });
 
-
-        getTable();
+        addSearchFilter();
 
 
         addAll(Arrays.asList(isbnLabel, isbnField, jButton, scrollPane, goBackBtn, titleLabel));
@@ -94,16 +95,18 @@ public class OverduePublicationWindow extends JFrameAddMultiple {
         setSize(600, 500);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        isInitialized = true;
     }
 
     private List<CheckOutHistoryPojo> getCheckoutPojo(List<CheckoutRecord> allCheckoutRecords) {
         List<CheckOutHistoryPojo> checkOutHistoryPojos = new ArrayList<>();
 
         allCheckoutRecords.forEach(v -> v.getEntries().forEach(y -> checkOutHistoryPojos
-                .add(new CheckOutHistoryPojo(y.getBookCopy(), y.getCheckoutDate(), y.getDueDate(), v.getMemberId(), y.getDueFee()))));
+                .add(new CheckOutHistoryPojo(y.getBookCopy(), y.getCheckoutDate(), y.getReturnDate(), y.getDueDate(), v.getMemberId(), y.getDueFee()))));
 
 
-        return checkOutHistoryPojos.stream().filter(v -> v.getDueDate().isBefore(LocalDate.now())).collect(Collectors.toList());
+        return checkOutHistoryPojos.stream().filter(x -> Objects.isNull(x.getReturnDate())).filter(v -> v.getDueDate().isBefore(LocalDate.now())).collect(Collectors.toList());
     }
 
     private void getTable() {
@@ -142,8 +145,9 @@ public class OverduePublicationWindow extends JFrameAddMultiple {
         add(scrollPane);
     }
 
-    private void addSearchFilter() {
+    public void addSearchFilter() {
 
+        allCheckoutRecordsPojo = getCheckoutPojo(checkoutBookController.getAllCheckoutRecords());
         if (!getIsbnFieldText().isBlank()) {
             allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getBookCopy().getBook().getIsbn().equalsIgnoreCase(getIsbnFieldText())).collect(Collectors.toList());
         }
@@ -158,5 +162,20 @@ public class OverduePublicationWindow extends JFrameAddMultiple {
     public static void main(String[] args) {
         OverduePublicationWindow.overduePublicationWindowInstace.initData();
         OverduePublicationWindow.overduePublicationWindowInstace.setVisible(true);
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+
+    @Override
+    public void isInitialized(boolean val) {
+        isInitialized = val;
     }
 }
