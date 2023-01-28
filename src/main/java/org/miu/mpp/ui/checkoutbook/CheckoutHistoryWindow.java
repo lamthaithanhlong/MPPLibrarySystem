@@ -169,9 +169,13 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple implements UIHelper
         allCheckoutRecordsPojo = getCheckoutPojo(checkoutBookController.getAllCheckoutRecords());
         if (!getIsbnFieldText().isBlank()) {
             allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getBookCopy().getBook().getIsbn().equalsIgnoreCase(getIsbnFieldText())).collect(Collectors.toList());
+
         }
         if (!getMemberIdFieldText().isBlank()) {
             allCheckoutRecordsPojo = allCheckoutRecordsPojo.stream().filter(v -> v.getMemberId().equalsIgnoreCase(getMemberIdFieldText())).collect(Collectors.toList());
+
+            System.out.printf("----------------------------------------------CHECK OUT RECORD FOR %s---------------------------------------%n", getMemberIdFieldText());
+            printRecord(allCheckoutRecordsPojo);
         }
         if (getMemberIdFieldText().isBlank() && getIsbnFieldText().isBlank()) {
             allCheckoutRecordsPojo = getCheckoutPojo(checkoutBookController.getAllCheckoutRecords());
@@ -193,5 +197,20 @@ public class CheckoutHistoryWindow extends JFrameAddMultiple implements UIHelper
     @Override
     public void isInitialized(boolean val) {
         isInitialized = val;
+    }
+
+    private void printRecord(List<CheckOutHistoryPojo> list) {
+
+//        System.out.println("------------------------------------------------------------------------------CHECKOUT RECORD DETAILS--------------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
+        System.out.println(String.format("| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |", "Book Copy", "Checkout Date", "Due Date", "Member ID", "Returned Date", "Amount Due"));
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
+
+        for (CheckOutHistoryPojo pojo : list) {
+            System.out.println(String.format("| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |", pojo.getBookCopy().getCopyNum(), pojo.getCheckoutDate(), pojo.getDueDate(), pojo.getMemberId(), pojo.getReturnDate() != null ? pojo.getReturnDate() : "Not Returned", "$" + pojo.getAmountDue()));
+        }
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
+
+
     }
 }
