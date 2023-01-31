@@ -260,6 +260,8 @@ public class AddBookWindow extends JFrameAddMultiple implements UIHelper {
 
     private void addNewBook() {
         try {
+
+            setBookToCheck(bc.getBook(getIsbnTf().trim()));
             RuleSetFactory.getRuleSet(this).applyRules(this);
 
             // add the entered inputs to the table

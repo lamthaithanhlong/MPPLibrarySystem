@@ -28,8 +28,8 @@ public class AddBookRuleSet implements RuleSet {
         lastNames = addBookWindow.getTxtLastName();
         telePhones = addBookWindow.getTxtTelephone();
         bios = addBookWindow.getTxaBio();
-        streets = addBookWindow.getTxaBio();
-        cities = addBookWindow.getTxaBio();
+        streets = addBookWindow.getTxtStreet();
+        cities = addBookWindow.getTxtCity();
         states = addBookWindow.getTxtState();
         zips = addBookWindow.getTxtZip();
         checkedBook = addBookWindow.getBookToCheck();
@@ -40,8 +40,8 @@ public class AddBookRuleSet implements RuleSet {
         if (!RuleSetFactory.isNumeric(copies))
             throw new RuleException("Copies can only be numeric");
 
-//        if (!RuleSetFactory.isValidIsbn(isbn))
-//            throw new RuleException("ISBN can only contain numbers and \"-\"");
+        if (!RuleSetFactory.isValidIsbn(isbn))
+            throw new RuleException("ISBN can only contain numbers and \"-\"");
 
         if (checkedBook != null) {
             throw new RuleException("ISBN already exists");
