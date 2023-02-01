@@ -15,12 +15,10 @@ public class AddBookController {
     }
 
     public Book getBook(String isbn) {
-        da = new DataAccessFacade();
         return da.readBooksMap().get(isbn);
     }
 
     public List<Book> getAllBooks() {
-        da = new DataAccessFacade();
         List<Book> books = new ArrayList<Book>();
         da.readBooksMap().forEach((key, value) -> {
             books.add(value);
@@ -29,12 +27,10 @@ public class AddBookController {
     }
 
     public void addBook(Book book) {
-        da = new DataAccessFacade();
         da.saveNewBook(book);
     }
 
     public List<String> allBookIds() {
-        da = new DataAccessFacade();
         List<String> retval = new ArrayList<>();
         retval.addAll(da.readBooksMap().keySet());
         return retval;

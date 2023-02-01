@@ -5,6 +5,7 @@ import org.miu.mpp.ui.admin.addbook.AddBookWindow;
 import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyWindow;
 import org.miu.mpp.ui.admin.addmember.AddMemberWindow;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
+import org.miu.mpp.ui.base.UIHelper;
 import org.miu.mpp.ui.checkoutbook.CheckoutBookWindow;
 import org.miu.mpp.ui.checkoutbook.CheckoutHistoryWindow;
 import org.miu.mpp.ui.login.LoginWindow;
@@ -19,7 +20,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LibrarySystem extends JFrameAddMultiple {
+public class LibrarySystem extends JFrameAddMultiple implements UIHelper {
     public static LibrarySystem librarySystemInstance = new LibrarySystem();
     ControllerInterface ci = new SystemController();
 
@@ -33,6 +34,8 @@ public class LibrarySystem extends JFrameAddMultiple {
     private JPanel panel;
     private JPanel logoutPanel;
     private ImageIcon backgroundImage;
+
+    private boolean isInitialized = false;
 
     private static JFrameAddMultiple[] allWindows = {
             LibrarySystem.librarySystemInstance,
@@ -146,6 +149,8 @@ public class LibrarySystem extends JFrameAddMultiple {
         add(panel);
         add(logoutPanel, BorderLayout.NORTH);
         setVisible(true);
+
+        isInitialized = true;
     }
 
     private void logoutBtnClicked() {
@@ -187,6 +192,21 @@ public class LibrarySystem extends JFrameAddMultiple {
             panel.remove(checkoutBooksBtn);
             panel.remove(overduePublicationsBtn);
         }
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+
+    @Override
+    public void isInitialized(boolean val) {
+        isInitialized = val;
     }
 
     class ReturnBookClickListener implements ActionListener {

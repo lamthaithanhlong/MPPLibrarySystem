@@ -23,5 +23,8 @@ public class CheckoutBookRulesSet implements RuleSet {
             System.out.println("Log checkout rule!!!");
             throw new RuleException("Member ID or ISBN cannot be empty");
         }
+
+        if (!RuleSetFactory.isValidIsbn(checkoutBookWindow.getIsbnFieldText()))
+            throw new RuleException("ISBN can only contain numbers and \"-\"");
     }
 }

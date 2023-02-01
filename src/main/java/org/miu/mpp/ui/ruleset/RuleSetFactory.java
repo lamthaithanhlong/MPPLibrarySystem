@@ -105,4 +105,11 @@ final public class RuleSetFactory {
 
         return false;
     }
+
+    public static boolean isValidIsbn(String inputString) {
+        if (inputString.isEmpty())
+            return false;
+        String STRING_REGEX = "^\\d+(\\-\\d+)*$";
+        return inputString.matches(STRING_REGEX);
+    }
 }

@@ -8,6 +8,8 @@ import org.miu.mpp.ui.admin.addbookcopy.AddBookCopyWindow;
 import org.miu.mpp.ui.base.Dialog;
 import org.miu.mpp.ui.base.JFrameAddMultiple;
 import org.miu.mpp.ui.base.UIHelper;
+import org.miu.mpp.ui.ruleset.RuleException;
+import org.miu.mpp.ui.ruleset.RuleSetFactory;
 import org.miu.mpp.utils.Util;
 
 import javax.swing.*;
@@ -17,7 +19,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class AddBookWindow extends JFrameAddMultiple implements UIHelper {
     private static final long serialVersionUID = 1L;
@@ -28,60 +29,100 @@ public class AddBookWindow extends JFrameAddMultiple implements UIHelper {
 
     private JPanel panel;
     private JScrollPane scrollPane;
-    private JTextField isbnTf;
-    private JTextField titleTf;
+    private JTextField isbnTf, titleTf, copytf;
+
+    public String getIsbnTf() {
+        return isbnTf.getText();
+    }
+
+    public String getTitleTf() {
+        return titleTf.getText();
+    }
+
+    public String getCopytf() {
+        return copytf.getText();
+    }
+
     private JComboBox<String> maxList;
-    private JTextField copytf;
 
     JPanel authorsPanel;
 
-    private List<JTextField> txtFirstName = new ArrayList<JTextField>();
-    private List<JTextField> txtLastName = new ArrayList<JTextField>();
-    private List<JTextField> txtTelephone = new ArrayList<JTextField>();
-    private List<JTextField> txtStreet = new ArrayList<JTextField>();
-    private List<JTextField> txtCity = new ArrayList<JTextField>();
-    private List<JTextField> txtState = new ArrayList<JTextField>();
-    private List<JTextField> txtZip = new ArrayList<JTextField>();
-    private List<JTextArea> txaBio = new ArrayList<JTextArea>();
+    private Book bookToCheck;
 
-    private AddBookWindow() {
+    private void setBookToCheck(Book book) {
+        this.bookToCheck = book;
     }
 
-    private boolean validateForm() {
-        if (isbnTf.getText().trim().equals("") || titleTf.getText().trim().equals("") || copytf.getText().trim().equals("")) {
-            new Dialog("Error", "Please fill all the fields", true);
-            return false;
-        }
-        try {
-            Integer.parseInt(copytf.getText().trim());
-        } catch (NumberFormatException e) {
-            new Dialog("Error", "Please fill num of copies field with numeric value", true);
-            return false;
-        }
+    public Book getBookToCheck() {
+        return bookToCheck;
+    }
 
-        for (int i = 0; i < numOfAuthor; i++) {
-            if (txtFirstName.get(i).getText().trim().equals("") || txtLastName.get(i).getText().trim().equals("") || txtTelephone.get(i).getText().trim().equals("") || txtStreet.get(i).getText().trim().equals("") || txtCity.get(i).getText().trim().equals("") || txtState.get(i).getText().trim().equals("") || txtZip.get(i).getText().trim().equals("") || txaBio.get(i).getText().trim().equals("")) {
-                new Dialog("Error", "Please fill all the fields", true);
-                return false;
-            }
+    private List<JTextField> txtFirstName = new ArrayList<>();
+    private List<JTextField> txtLastName = new ArrayList<>();
+    private List<JTextField> txtTelephone = new ArrayList<>();
+    private List<JTextField> txtStreet = new ArrayList<>();
+    private List<JTextField> txtCity = new ArrayList<>();
+    private List<JTextField> txtState = new ArrayList<>();
+    private List<JTextField> txtZip = new ArrayList<>();
+    private List<JTextArea> txaBio = new ArrayList<>();
 
-            if (!Pattern.compile("^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$").matcher(txtTelephone.get(i).getText().trim()).matches()) {
-                new Dialog("Error", "Please fill telephone field with correct format", true);
-                return false;
-            }
+    public List<String> getTxtFirstName() {
+        List<String> enteredFirstName = new ArrayList<>();
+        for (JTextField textField : txtFirstName)
+            enteredFirstName.add(textField.getText());
+        return enteredFirstName;
+    }
 
-            if (!(txtZip.get(i).getText().trim().length() == 5 || txtZip.get(i).getText().trim().length() == 6)) {
-                new Dialog("Error", "Please fill zip field with correct format", true);
-                return false;
-            }
-        }
+    public List<String> getTxtLastName() {
+        List<String> enteredLastName = new ArrayList<>();
+        for (JTextField textField : txtLastName)
+            enteredLastName.add(textField.getText());
+        return enteredLastName;
+    }
 
-        if (bc.getBook(isbnTf.getText().trim()) != null) {
-            new Dialog("Error", "ISBN already exists", true);
-            return false;
-        }
+    public List<String> getTxtTelephone() {
+        List<String> enteredTelephone = new ArrayList<>();
+        for (JTextField textField : txtTelephone)
+            enteredTelephone.add(textField.getText());
+        return enteredTelephone;
+    }
 
-        return true;
+    public List<String> getTxtStreet() {
+        List<String> enteredStreet = new ArrayList<>();
+        for (JTextField textField : txtStreet)
+            enteredStreet.add(textField.getText());
+        return enteredStreet;
+    }
+
+    public List<String> getTxtCity() {
+        List<String> enteredCity = new ArrayList<>();
+        for (JTextField textField : txtCity)
+            enteredCity.add(textField.getText());
+        return enteredCity;
+    }
+
+    public List<String> getTxtState() {
+        List<String> enteredState = new ArrayList<>();
+        for (JTextField textField : txtState)
+            enteredState.add(textField.getText());
+        return enteredState;
+    }
+
+    public List<String> getTxtZip() {
+        List<String> enteredZip = new ArrayList<>();
+        for (JTextField textField : txtZip)
+            enteredZip.add(textField.getText());
+        return enteredZip;
+    }
+
+    public List<String> getTxaBio() {
+        List<String> enteredBio = new ArrayList<>();
+        for (JTextArea textField : txaBio)
+            enteredBio.add(textField.getText());
+        return enteredBio;
+    }
+
+    private AddBookWindow() {
     }
 
     /**
@@ -163,27 +204,7 @@ public class AddBookWindow extends JFrameAddMultiple implements UIHelper {
 
         JButton btnadd = new JButton("Add");
         btnadd.addActionListener(e -> {
-            if (validateForm()) {
-                // add the entered inputs to the table
-                List<Author> authors = new ArrayList<Author>();
-                for (int i = 0; i < txtFirstName.size(); i++) {
-                    authors.add(new Author(txtFirstName.get(i).getText(), txtLastName.get(i).getText(), txtTelephone.get(i).getText(), new Address(txtStreet.get(i).getText(), txtCity.get(i).getText(), txtState.get(i).getText(), txtZip.get(i).getText()), txaBio.get(i).getText()));
-                }
-                Book book = new Book(isbnTf.getText(), titleTf.getText(), maxList.getSelectedItem().toString() == "7 Days" ? 7 : 21, authors);
-                for (int i = 1; i < Integer.parseInt(copytf.getText()); i++) {
-                    book.addCopy();
-                }
-                bc.addBook(book);
-
-                new Dialog("Success", "Book added successfully", false);
-                LibrarySystem.hideAllWindows();
-
-                if (!AddBookCopyWindow.addBookCopyWindowInstance.isInitialized())
-                    AddBookCopyWindow.addBookCopyWindowInstance.init();
-                AddBookCopyWindow.addBookCopyWindowInstance.populateData();
-                Util.centerFrameOnDesktop(AddBookCopyWindow.addBookCopyWindowInstance);
-                AddBookCopyWindow.addBookCopyWindowInstance.setVisible(true);
-            }
+            addNewBook();
         });
         addBtnsPanel.add(btnadd);
         addBtnsPanel.add(btnAddMoreAuthor);
@@ -235,6 +256,37 @@ public class AddBookWindow extends JFrameAddMultiple implements UIHelper {
         pack();
 
         isInitialized = true;
+    }
+
+    private void addNewBook() {
+        try {
+
+            setBookToCheck(bc.getBook(getIsbnTf().trim()));
+            RuleSetFactory.getRuleSet(this).applyRules(this);
+
+            // add the entered inputs to the table
+            List<Author> authors = new ArrayList<Author>();
+            for (int i = 0; i < txtFirstName.size(); i++) {
+                authors.add(new Author(txtFirstName.get(i).getText(), txtLastName.get(i).getText(), txtTelephone.get(i).getText(), new Address(txtStreet.get(i).getText(), txtCity.get(i).getText(), txtState.get(i).getText(), txtZip.get(i).getText()), txaBio.get(i).getText()));
+            }
+            Book book = new Book(isbnTf.getText(), titleTf.getText(), maxList.getSelectedItem().toString() == "7 Days" ? 7 : 21, authors);
+            for (int i = 1; i < Integer.parseInt(copytf.getText()); i++) {
+                book.addCopy();
+            }
+            bc.addBook(book);
+
+            new Dialog("Success", "Book added successfully", false);
+            LibrarySystem.hideAllWindows();
+
+            if (!AddBookCopyWindow.addBookCopyWindowInstance.isInitialized())
+                AddBookCopyWindow.addBookCopyWindowInstance.init();
+            AddBookCopyWindow.addBookCopyWindowInstance.populateData();
+            Util.centerFrameOnDesktop(AddBookCopyWindow.addBookCopyWindowInstance);
+            AddBookCopyWindow.addBookCopyWindowInstance.setVisible(true);
+
+        } catch (RuleException ruleException) {
+            new Dialog("Error", ruleException.getMessage(), true);
+        }
     }
 
     @Override
