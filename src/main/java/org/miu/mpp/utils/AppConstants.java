@@ -1,6 +1,27 @@
 package org.miu.mpp.utils;
 
-public class AppConstants {
-    public static final String SAVE = "SAVE";
-    public static final double LATE_FEE = 0.25;
+public enum AppConstants {
+    LATE_FEE(0.25f),
+
+    PASSWORD_INCORRECT("Password incorrect");
+
+    float lateFee;
+
+    String value;
+
+    AppConstants(float lateFee) {
+        this.lateFee = lateFee;
+    }
+
+    AppConstants(String value) {
+        this.value = value;
+    }
+
+    public float getLateFee() {
+        return lateFee;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }

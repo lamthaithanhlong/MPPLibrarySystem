@@ -79,7 +79,6 @@ public class LoginWindow extends JFrameAddMultiple {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Group13:Error", 1);
             System.out.println(e.getMessage());
         }
-
     }
 
     public static void main(String[] args) {

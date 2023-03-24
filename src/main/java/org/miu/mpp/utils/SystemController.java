@@ -11,18 +11,30 @@ import java.util.List;
 
 public class SystemController implements ControllerInterface {
     public static User loggedInUser = null;
+    private static HashMap<String, User> userRecords;
+
+    public SystemController() {
+        DataAccess da = new DataAccessFacade();
+        userRecords = da.readUserMap();
+    }
 
     public void login(String id, String password) throws LoginException {
-        DataAccess da = new DataAccessFacade();
-        HashMap<String, User> map = da.readUserMap();
-        if (!map.containsKey(id)) {
+        attemptLogin(id, password);
+        setLoggedInUser(id);
+    }
+
+    private void attemptLogin(String id, String password) throws LoginException {
+        if (!userRecords.containsKey(id)) {
             throw new LoginException("User with ID " + id + " not found");
         }
-        String passwordFound = map.get(id).getPassword();
-        if (!passwordFound.equals(password)) {
-            throw new LoginException("Password incorrect");
+        String userPassword = userRecords.get(id).getPassword();
+        if (!userPassword.equals(password)) {
+            throw new LoginException(AppConstants.PASSWORD_INCORRECT.getValue());
         }
-        loggedInUser = map.get(id);
+    }
+
+    private static void setLoggedInUser(String userId) {
+        loggedInUser = userRecords.get(userId);
     }
 
     @Override
@@ -40,6 +52,4 @@ public class SystemController implements ControllerInterface {
         retval.addAll(da.readBooksMap().keySet());
         return retval;
     }
-
-
 }
