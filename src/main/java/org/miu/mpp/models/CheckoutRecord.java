@@ -1,7 +1,7 @@
 package org.miu.mpp.models;
 
 import lombok.Getter;
-import org.miu.mpp.utils.AppConstants;
+import org.miu.mpp.utils.AppStringConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public final class CheckoutRecord implements Serializable {
 
     public static CheckoutRecord createCheckoutRecord(LibraryMember member) {
         if (null == member)
-            throw new IllegalStateException(AppConstants.MEMBER_CANNOT_BE_NULL.getValue());
+            throw new IllegalStateException(AppStringConstants.MEMBER_CANNOT_BE_NULL.getValue());
 
         CheckoutRecord checkoutRecord = new CheckoutRecord(member.getMemberId());
 

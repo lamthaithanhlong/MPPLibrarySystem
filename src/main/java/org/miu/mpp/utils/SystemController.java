@@ -29,7 +29,7 @@ public class SystemController implements ControllerInterface {
         }
         String userPassword = userRecords.get(id).getPassword();
         if (!userPassword.equals(password)) {
-            throw new LoginException(AppConstants.PASSWORD_INCORRECT.getValue());
+            throw new LoginException(AppStringConstants.PASSWORD_INCORRECT.getValue());
         }
     }
 
