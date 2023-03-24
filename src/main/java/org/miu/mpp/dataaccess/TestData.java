@@ -42,12 +42,12 @@ public class TestData {
 
     ///create books
     public void bookData() {
-        allBooks.get(0).addCopy();
-        allBooks.get(0).addCopy();
-        allBooks.get(1).addCopy();
-        allBooks.get(3).addCopy();
-        allBooks.get(2).addCopy();
-        allBooks.get(2).addCopy();
+        allBooks.get(0).addNewCopy();
+        allBooks.get(0).addNewCopy();
+        allBooks.get(1).addNewCopy();
+        allBooks.get(3).addNewCopy();
+        allBooks.get(2).addNewCopy();
+        allBooks.get(2).addNewCopy();
         DataAccessFacade.loadBookMap(allBooks);
     }
 
@@ -111,9 +111,9 @@ public class TestData {
     @SuppressWarnings("serial")
     List<User> allUsers = new ArrayList<User>() {
         {
-            add(new User("101", "xyz", Auth.LIBRARIAN));
-            add(new User("102", "abc", Auth.ADMIN));
-            add(new User("103", "111", Auth.BOTH));
+            add(User.create("101", "xyz", Auth.LIBRARIAN));
+            add(User.create("102", "abc", Auth.ADMIN));
+            add(User.create("103", "111", Auth.BOTH));
         }
     };
 }

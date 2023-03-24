@@ -3,10 +3,8 @@ package org.miu.mpp.ui.admin.addmember;
 import org.miu.mpp.dataaccess.DataAccess;
 import org.miu.mpp.dataaccess.DataAccessFacade;
 import org.miu.mpp.models.*;
-import org.miu.mpp.ui.ruleset.RuleException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -28,14 +26,14 @@ public class AddMemberController {
         for (String i : mems) {
             lastValue = Integer.parseInt(i);
         }
-        System.out.println("last value is: "+lastValue);
+        System.out.println("last value is: " + lastValue);
         return String.valueOf(getNextId(mems, lastValue));
     }
 
     private static Integer getNextId(Set<String> mems, Integer lastValue) {
         Integer nextMemberId = lastValue + 1;
 
-        while (mems.contains(String.valueOf(nextMemberId))){
+        while (mems.contains(String.valueOf(nextMemberId))) {
             nextMemberId = nextMemberId + 1;
         }
 
@@ -51,8 +49,8 @@ public class AddMemberController {
 
             List<LibraryMember> libraryMembers = new ArrayList<>(da.readMemberMap().values());
             for (LibraryMember v : libraryMembers) {
-                if(v.getPhone().equals(memberDetailsPojo.getPhoneNumber())){
-                    throw new AddMemberException(String.format("A Library member with phone %s already exists",memberDetailsPojo.getPhoneNumber()));
+                if (v.getPhone().equals(memberDetailsPojo.getPhoneNumber())) {
+                    throw new AddMemberException(String.format("A Library member with phone %s already exists", memberDetailsPojo.getPhoneNumber()));
                 }
             }
             id = getNextMemberId();
@@ -68,12 +66,12 @@ public class AddMemberController {
             List<User> users = new ArrayList<>(da.readUserMap().values());
 
             for (User v : users) {
-                if(v.getPerson()!= null && v.getPerson().getPhone().equals(memberDetailsPojo.getPhoneNumber())){
-                    throw new AddMemberException(String.format("A User with phone %s already exists",memberDetailsPojo.getPhoneNumber()));
+                if (v.getPerson() != null && v.getPerson().getPhone().equals(memberDetailsPojo.getPhoneNumber())) {
+                    throw new AddMemberException(String.format("A User with phone %s already exists", memberDetailsPojo.getPhoneNumber()));
                 }
             }
             id = getNextUserId();
-            User user = new User(id, memberDetailsPojo.getPassword(), auth,
+            User user = User.createFromPerson(id, memberDetailsPojo.getPassword(), auth,
                     new Person(memberDetailsPojo.getFirstName(), memberDetailsPojo.getPassword(), memberDetailsPojo.getPhoneNumber(),
                             new Address(memberDetailsPojo.getStreet(), memberDetailsPojo.getCity(), memberDetailsPojo.getState(), memberDetailsPojo.getZip())));
 

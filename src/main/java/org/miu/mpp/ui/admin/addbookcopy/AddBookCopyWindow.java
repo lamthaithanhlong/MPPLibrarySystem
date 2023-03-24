@@ -108,7 +108,7 @@ public class AddBookCopyWindow extends SearchPanelTopPanel implements UIHelper {
                 Book book = books.get(rowIndex);
 
                 for (int i = 0; i < numberEntered; i++) {
-                    book.addCopy();
+                    book.addNewCopy();
                 }
                 addBookCopyController.saveBook(book);
 

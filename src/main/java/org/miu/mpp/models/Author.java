@@ -9,12 +9,4 @@ public class Author extends Person implements Serializable {
         super(firstName, lastName, phone, address);
         this.bio = bio;
     }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
 }

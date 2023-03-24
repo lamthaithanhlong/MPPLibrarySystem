@@ -1,12 +1,14 @@
 package org.miu.mpp.models;
 
+import lombok.Getter;
 import org.miu.mpp.utils.AppConstants;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
-final public class CheckoutEntry implements Serializable {
+@Getter
+public final class CheckoutEntry implements Serializable {
 
     private static final long serialVersionUID = -6050615539255649506L;
     private BookCopy bookCopy;
@@ -14,27 +16,8 @@ final public class CheckoutEntry implements Serializable {
     private LocalDate dueDate;
 
     private LocalDate returnDate;
+
     private boolean isReturned;
-
-    public BookCopy getBookCopy() {
-        return bookCopy;
-    }
-
-    public LocalDate getCheckoutDate() {
-        return checkoutDate;
-    }
-
-    public LocalDate getReturnDate() {
-        return returnDate;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
-    public boolean isReturned() {
-        return isReturned;
-    }
 
     public void setIsReturned() {
         isReturned = true;
@@ -44,12 +27,16 @@ final public class CheckoutEntry implements Serializable {
         returnDate = LocalDate.now();
     }
 
-    CheckoutEntry(BookCopy bookCopy, LocalDate checkoutDate) {
+    private CheckoutEntry(BookCopy bookCopy, LocalDate checkoutDate) {
         this.bookCopy = bookCopy;
         this.checkoutDate = checkoutDate;
         this.dueDate = checkoutDate.plusDays(bookCopy.getBook().getMaxCheckoutLength());
         this.isReturned = false;
         this.returnDate = null;
+    }
+
+    public static CheckoutEntry createCheckoutEntry(BookCopy bookCopy, LocalDate date) {
+        return new CheckoutEntry(bookCopy, date);
     }
 
     public double getDueFee() {
@@ -59,5 +46,4 @@ final public class CheckoutEntry implements Serializable {
         }
         return 0.0;
     }
-
 }

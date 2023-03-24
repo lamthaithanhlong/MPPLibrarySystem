@@ -271,7 +271,7 @@ public class AddBookWindow extends JFrameAddMultiple implements UIHelper {
             }
             Book book = new Book(isbnTf.getText(), titleTf.getText(), maxList.getSelectedItem().toString() == "7 Days" ? 7 : 21, authors);
             for (int i = 1; i < Integer.parseInt(copytf.getText()); i++) {
-                book.addCopy();
+                book.addNewCopy();
             }
             bc.addBook(book);
 
